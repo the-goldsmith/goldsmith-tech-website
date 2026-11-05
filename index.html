@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0a0c0b">
+    <meta name="description" content="Goldsmith builds thoughtful AI, software, and security systems for a smarter world.">
+    <title>Goldsmith — Intelligence, engineered.</title>
+    <meta name="robots" content="index,follow">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Goldsmith">
+    <meta property="og:title" content="Goldsmith — Intelligence, engineered.">
+    <meta property="og:description" content="Thoughtful AI, custom software, responsible security concepts, and human-supervised robotics research.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&amp;fit=crop&amp;w=1200&amp;q=85">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Goldsmith — Intelligence, engineered.">
+    <meta name="twitter:description" content="Thoughtful AI, custom software, responsible security concepts, and human-supervised robotics research.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&amp;fit=crop&amp;w=1200&amp;q=85">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 36'%3E%3Cpath d='M16 2 28 7v9c0 8-4.8 14-12 18C8.8 30 4 24 4 16V7L16 2Z' fill='none' stroke='%23b8c17a' stroke-width='2'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div class="blueprint-backdrop" id="blueprint-backdrop" aria-hidden="true">
+      <svg class="orbital-circuit" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="circuit-hub-glow">
+            <stop offset="0" stop-color="#b8c17a" stop-opacity=".16"/>
+            <stop offset="1" stop-color="#b8c17a" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle class="circuit-hub-glow" cx="720" cy="450" r="205" fill="url(#circuit-hub-glow)"/>
+        <g class="circuit-traces">
+          <path class="circuit-trace circuit-trace-software" d="M720 450H562V370H390V272H266"/>
+          <path class="circuit-trace circuit-trace-ai" d="M720 450H878V370H1050V272H1174"/>
+          <path class="circuit-trace circuit-trace-robotics" d="M720 450V568H632V650H720V720"/>
+          <path class="circuit-trace circuit-trace-secondary" d="M266 272H190V330M1174 272h76v58M632 650h-96v-54M808 568h96v82"/>
+        </g>
+        <g class="circuit-hub">
+          <circle class="circuit-hub-ring" cx="720" cy="450" r="52"/>
+          <circle class="circuit-hub-core" cx="720" cy="450" r="31"/>
+          <path d="m720 426 17 7v14c0 12-7 21-17 27-10-6-17-15-17-27v-14z"/>
+          <path d="M713 454v-12h14v6h-7m0-6v12h7"/>
+        </g>
+        <g class="circuit-node circuit-node-software">
+          <circle class="node-halo" cx="266" cy="272" r="33"/>
+          <circle class="node-ring" cx="266" cy="272" r="13"/>
+          <circle class="node-core" cx="266" cy="272" r="4"/>
+          <text x="221" y="229">SOFTWARE</text>
+        </g>
+        <g class="circuit-node circuit-node-ai">
+          <circle class="node-halo" cx="1174" cy="272" r="33"/>
+          <circle class="node-ring" cx="1174" cy="272" r="13"/>
+          <circle class="node-core" cx="1174" cy="272" r="4"/>
+          <text x="1130" y="229">APPLIED AI</text>
+        </g>
+        <g class="circuit-node circuit-node-robotics">
+          <circle class="node-halo" cx="720" cy="720" r="33"/>
+          <circle class="node-ring" cx="720" cy="720" r="13"/>
+          <circle class="node-core" cx="720" cy="720" r="4"/>
+          <text x="675" y="766">ROBOTICS</text>
+        </g>
+      </svg>
+      <img class="blueprint-drift blueprint-drone" src="assets/inspection-drone.svg" alt="">
+      <img class="blueprint-drift blueprint-robot" src="assets/armored-inspection-robot.svg" alt="">
+      <svg class="blueprint-structure blueprint-arm" viewBox="0 0 640 520" fill="none" aria-hidden="true">
+        <g class="blueprint-structure-main">
+          <path d="M75 433h112l38-43-34-33 42-49 57 16 31-48-28-30 29-46 60 15 36-49-25-37 40-45 60 18 42-48" />
+          <path d="m187 433 40 38 62-4 23-34-21-43m-58-82 67 18 42-27m-11-69 69 17 45-36m-9-56 67 16 37-31" />
+          <path d="m288 324 25 61 46 12 41-24m14-123 28 54 46 8 38-27m-26-100 35 50 42 3" />
+          <circle cx="211" cy="391" r="31"/><circle cx="313" cy="294" r="29"/><circle cx="419" cy="224" r="29"/><circle cx="510" cy="128" r="27"/>
+          <circle cx="211" cy="391" r="9"/><circle cx="313" cy="294" r="8"/><circle cx="419" cy="224" r="8"/><circle cx="510" cy="128" r="8"/>
+          <path d="M107 435h72m145-117 21 24m53-132 18 25m75-129 20 24M72 461h106m250-282 58 16" stroke-dasharray="7 8"/>
+          <path d="M211 360v-51h-44m146-44v-55h-39m145-15V137h-37m128-35V63h-43" stroke-dasharray="4 7"/>
+        </g>
+        <g class="blueprint-annotation">
+          <path d="M78 80h105v70H78zM78 165h105m-105 12h72M456 375h112v74H456zM470 395h84m-84 14h55"/>
+          <path d="M80 111h60m-60 12h42m338 286h60m-60 12h42"/>
+          <circle cx="132" cy="351" r="72" stroke-dasharray="3 9"/><path d="M132 267v20m0 128v20m-84-84h20m128 0h20"/>
+        </g>
+      </svg>
+      <svg class="blueprint-structure blueprint-rover" viewBox="0 0 640 460" fill="none" aria-hidden="true">
+        <g class="blueprint-structure-main">
+          <path d="m113 292 35-85 89-47h171l82 56 26 78-49 45H160z"/>
+          <path d="m161 203 93-35m-47 104h255m-215 0-25 55m193-55 27 55m-190-99 94-96 66 96m-66-96v96m95-96v96"/>
+          <path d="M101 283h-34v66h43m430-66h34v66h-42"/>
+          <circle cx="182" cy="337" r="40"/><circle cx="455" cy="337" r="40"/><circle cx="182" cy="337" r="17"/><circle cx="455" cy="337" r="17"/>
+          <path d="M282 225h97v39h-97zm-8-91h117v34H274zM305 93h52v41h-52z"/>
+          <path d="M329 93V58m-20 0h42m-23-14v14m-125 208-30 24m288-24 34 24" stroke-dasharray="6 8"/>
+          <path d="M101 369h60m294 0h60" stroke-dasharray="4 7"/>
+        </g>
+        <g class="blueprint-annotation">
+          <path d="M75 91h120v55H75zM437 70h122v61H437zM73 157h91m-91 11h65m312-84h80m-80 12h49"/>
+          <circle cx="329" cy="230" r="142" stroke-dasharray="3 9"/><path d="M329 73v19m0 276v19M171 230h20m276 0h20"/>
+        </g>
+      </svg>
+      <svg class="blueprint-structure blueprint-sensor" viewBox="0 0 620 500" fill="none" aria-hidden="true">
+        <g class="blueprint-structure-main">
+          <path d="M149 142h317v224H149zM177 169h261v169H177z"/>
+          <path d="M207 207h91v92h-91zm135 0h64v9h-64zm0 23h64v9h-64zm0 23h64v9h-64zm0 23h45v9h-45z"/>
+          <path d="M299 252h43m-135 76v40m185-40v40M125 382h366M177 394h261"/>
+          <circle cx="252" cy="253" r="24"/><path d="m243 254 7 7 14-17"/>
+          <path d="M204 120V91h205v29m-158 0V73m109 47V73"/>
+          <path d="M108 184h-31v142h31m397-142h31v142h-31" stroke-dasharray="6 8"/>
+          <path d="M282 142v-19m50 19v-19m-50 262v28m50-28v28"/>
+        </g>
+        <g class="blueprint-annotation">
+          <path d="M72 67h108v53H72zM438 387h111v48H438zM84 82h68m-68 12h47m322 308h71"/>
+          <circle cx="308" cy="253" r="195" stroke-dasharray="3 10"/><path d="M308 42v22m0 378v22M97 253h22m378 0h22"/>
+        </g>
+      </svg>
+      <span class="blueprint-depth-mark blueprint-depth-mark-one"></span>
+      <span class="blueprint-depth-mark blueprint-depth-mark-two"></span>
+      <span class="blueprint-label mono" id="blueprint-label">GS / AERIAL SCHEMATICS</span>
+      <span class="blueprint-scanline"></span>
+    </div>
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="Goldsmith home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 36"><path d="M16 2 28 7v9c0 8-4.8 14-12 18C8.8 30 4 24 4 16V7L16 2Z"/><path d="M11 21V13h10v4h-5m0-4v8h5"/><circle cx="23" cy="21" r="1"/></svg></span>
+        <span>goldsmith<span class="brand-period">.</span></span>
+      </a>
+      <nav class="primary-nav" id="primary-nav" aria-label="Storefront navigation">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#products">Products</a>
+        <a href="#hardware">Hardware</a>
+        <a href="#projects">Projects</a>
+        <button class="nav-gallery-button" id="gallery-open" type="button">Gallery <span id="gallery-nav-count">101</span></button>
+        <a href="#collaboration">Collaboration</a>
+        <a href="#help">Help</a>
+        <a href="#contact">Contact</a>
+        <a class="nav-sitemap-button" href="sitemap.html">Site map <span aria-hidden="true">↗</span></a>
+        <button class="nav-cart-button" id="cart-open" type="button" aria-label="Open inquiry cart">Bag <span class="cart-count" id="cart-count">0</span></button>
+        <a class="nav-cta" href="#contact">Let's talk <span class="nav-arrow" aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="hero section-shell" id="home">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="status-dot"></span> INDEPENDENT AI & SOFTWARE STUDIO</div>
+          <h1>Intelligence,<br> <span class="accent-text">engineered.</span></h1>
+          <p class="hero-description">We turn ambitious ideas into useful technology — from intelligent software to next-generation security systems.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#services">Explore what we do <span aria-hidden="true">↘</span></a>
+            <a class="text-link" href="#about">Meet Goldsmith <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="hero-footnote"><span class="mono">01 / 04</span><span>Built for what comes next.</span></div>
+        </div>
+        <div class="hero-visual">
+          <div class="visual-frame">
+            <img src="assets/armored-inspection-robot.svg" alt="Illustrated unarmed field inspection robot concept with protective armor and cameras">
+            <img class="visual-telemetry" src="assets/hero-telemetry.svg" alt="" aria-hidden="true">
+            <canvas class="hero-scene" id="hero-scene" aria-hidden="true"></canvas>
+            <div class="image-vignette"></div>
+            <button class="scene-toggle mono" id="hero-scene-toggle" type="button" aria-pressed="false" aria-label="Play the interactive concept scene">PLAY SCENE <span aria-hidden="true">↗</span></button>
+            <div class="visual-label"><span class="status-dot"></span><span>CONCEPT / AUTONOMOUS SYSTEMS</span></div>
+            <div class="visual-index mono">GS—R01 <span>· CONCEPT</span></div>
+            <div class="crosshair crosshair-one"></div>
+            <div class="crosshair crosshair-two"></div>
+          </div>
+          <div class="visual-caption"><span>Adaptive machines. Human-led outcomes.</span><span class="mono">FIG. 001</span></div>
+        </div>
+        <div class="hero-grid-line" aria-hidden="true"></div>
+      </section>
+
+      <section class="trust-strip" aria-label="Core technologies">
+        <div class="section-shell trust-inner">
+          <div class="workshop-heading"><span class="mono trust-label">TOOLS IN OUR WORKSHOP</span><span class="workshop-hint">Select a tool to see its service details and visuals <span aria-hidden="true">↗</span></span></div>
+          <div class="tech-scroll" role="region" aria-label="Technology and service areas" tabindex="0">
+            <div class="tech-list">
+              <button type="button" data-workshop-service="Custom software"><span aria-hidden="true">⌘</span> CUSTOM SOFTWARE</button>
+              <button type="button" data-workshop-service="Applied AI"><span aria-hidden="true">✳</span> APPLIED AI</button>
+              <button type="button" data-workshop-service="Computer vision"><span aria-hidden="true">◉</span> COMPUTER VISION</button>
+              <button type="button" data-workshop-service="Security systems"><span aria-hidden="true">◎</span> SECURITY SYSTEMS</button>
+              <button type="button" data-workshop-service="Cloud platforms"><span aria-hidden="true">☁</span> CLOUD PLATFORMS</button>
+              <button type="button" data-workshop-service="Data insights"><span aria-hidden="true">▤</span> DATA INSIGHTS</button>
+              <button type="button" data-workshop-service="AI-assisted drones"><span aria-hidden="true">⌁</span> ROBOTICS & DRONES</button>
+              <button type="button" data-workshop-service="Intelligent workflows"><span aria-hidden="true">⟳</span> WORKFLOW AUTOMATION</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-shell about-section" id="about">
+        <div class="section-kicker"><span class="mono">01</span><span class="kicker-rule"></span><span>WHO WE ARE</span></div>
+        <div class="about-grid">
+          <h2>Good technology<br>starts with <span class="accent-text">good questions.</span></h2>
+          <div class="about-copy">
+            <p class="large-copy">Goldsmith is an AI-focused software company building dependable digital products for real-world challenges.</p>
+            <p>We bring software engineering, practical AI, and security-minded design together. Whether you need a new product, a smarter workflow, or a technology partner, we work from the problem outward.</p>
+            <a class="text-link" href="#contact">A little more about us <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <section class="capability-panel" aria-labelledby="capabilities-title">
+          <div>
+            <span class="mono project-tag">TOOLS & APPROACH</span>
+            <h3 id="capabilities-title">A practical technology toolkit.</h3>
+            <p>Language and platform choices depend on your project requirements. Areas of interest include Java, PHP, Python, web technologies, applied AI, and connected systems.</p>
+            <div class="capability-tags" id="capability-tags" aria-label="Technology areas">
+              <button type="button" data-tech="Java">Java</button><button type="button" data-tech="PHP">PHP</button><button type="button" data-tech="Python">Python</button><button type="button" data-tech="Web platforms">Web platforms</button><button type="button" data-tech="Applied AI">Applied AI</button><button type="button" data-tech="IoT concepts">IoT concepts</button>
+            </div>
+            <p class="tech-stack-detail" id="tech-stack-detail" aria-live="polite">Select a technology area to see how it may fit a project. No particular stack is guaranteed.</p>
+          </div>
+          <button type="button" class="button button-primary" id="capability-download">Download capabilities summary</button>
+        </section>
+        <div class="catalog-view-controls" role="group" aria-label="About section layout">
+          <span class="mono">VIEW</span>
+          <button type="button" class="view-mode-button is-active" data-view-target="about" data-view-mode="grid" aria-pressed="true">Grid</button>
+          <button type="button" class="view-mode-button" data-view-target="about" data-view-mode="list" aria-pressed="false">List</button>
+        </div>
+        <div class="principles" data-view-container="about">
+          <article><span class="principle-number mono">01 —</span><h3>Built with purpose</h3><p>Useful solutions, shaped around the people and systems they serve.</p></article>
+          <article><span class="principle-number mono">02 —</span><h3>Secure by design</h3><p>Thoughtful engineering with privacy, reliability, and oversight in mind.</p></article>
+          <article><span class="principle-number mono">03 —</span><h3>Made to evolve</h3><p>Flexible foundations that can grow as your ideas and needs change.</p></article>
+        </div>
+        <section class="system-map-panel" aria-labelledby="system-map-title">
+          <div class="visual-panel-heading"><span class="mono project-tag">ILLUSTRATIVE SYSTEM MAP</span><h3 id="system-map-title">A connected solution, made of clear parts.</h3><p>Explore a sample architecture. Real systems vary by project; this is not a deployed Goldsmith system.</p></div>
+          <div class="system-map">
+            <svg class="system-map-lines" viewBox="0 0 800 360" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M400 175 145 80M400 175 400 58M400 175 655 80M400 175 145 275M400 175 400 305M400 175 655 275"/>
+              <path d="M145 80 400 58M655 80 400 58M145 275 400 305M655 275 400 305" class="system-map-secondary"/>
+            </svg>
+            <button type="button" class="system-map-node system-node-core is-active" data-system-node="core" aria-pressed="true"><span class="mono">CORE</span><strong>Application</strong></button>
+            <button type="button" class="system-map-node system-node-users" data-system-node="users" aria-pressed="false"><span class="mono">01</span><strong>People & workflow</strong></button>
+            <button type="button" class="system-map-node system-node-data" data-system-node="data" aria-pressed="false"><span class="mono">02</span><strong>Data & storage</strong></button>
+            <button type="button" class="system-map-node system-node-ai" data-system-node="ai" aria-pressed="false"><span class="mono">03</span><strong>AI / decision support</strong></button>
+            <button type="button" class="system-map-node system-node-devices" data-system-node="devices" aria-pressed="false"><span class="mono">04</span><strong>Devices & sensors</strong></button>
+            <button type="button" class="system-map-node system-node-cloud" data-system-node="cloud" aria-pressed="false"><span class="mono">05</span><strong>Hosting & operations</strong></button>
+            <button type="button" class="system-map-node system-node-security" data-system-node="security" aria-pressed="false"><span class="mono">06</span><strong>Privacy & access</strong></button>
+          </div>
+          <p class="system-map-detail" id="system-map-detail" aria-live="polite">The application coordinates the user experience, business rules, integrations, and data flows.</p>
+        </section>
+      </section>
+
+      <section class="services-section" id="services">
+        <div class="section-shell">
+          <div class="section-kicker"><span class="mono">02</span><span class="kicker-rule"></span><span>WHAT WE DO</span></div>
+          <div class="section-heading-row">
+            <h2>From first sketch<br>to <span class="accent-text">real-world impact.</span></h2>
+            <p>One focused team for the systems, software, and intelligent experiences your next chapter needs.</p>
+          </div>
+          <section class="service-finder" aria-labelledby="service-finder-title">
+            <div class="service-finder-copy">
+              <span class="mono project-tag">NOT SURE WHERE TO START?</span>
+              <h3 id="service-finder-title">Find a relevant service area.</h3>
+              <p>Choose the closest match to get a starting suggestion. A conversation is still needed to confirm fit and scope.</p>
+            </div>
+            <div class="service-finder-controls">
+              <label for="service-finder-goal">What are you trying to do?
+                <select id="service-finder-goal">
+                  <option value="">Choose a goal</option>
+                  <option value="software">Build or improve software</option>
+                  <option value="ai">Explore AI or data analysis</option>
+                  <option value="vision">Work with image or video data</option>
+                  <option value="security">Plan a privacy-aware security system</option>
+                  <option value="iot">Connect sensors or devices</option>
+                  <option value="research">Test an early-stage idea</option>
+                </select>
+              </label>
+              <button type="button" class="button button-primary" id="service-finder-submit">Show suggestion</button>
+              <div id="service-finder-result" class="service-finder-result" aria-live="polite">Your suggestion will appear here.</div>
+            </div>
+          </section>
+          <section class="process-panel" aria-labelledby="process-title">
+            <div class="process-heading">
+              <span class="mono project-tag">A CLEAR STARTING PROCESS</span>
+              <h3 id="process-title">Understand first. Scope together.</h3>
+              <p>These are discussion stages, not guaranteed delivery dates or a fixed commercial offer.</p>
+            </div>
+            <ol class="process-steps">
+              <li><span class="mono">01</span><strong>Understand the need</strong><p>Discuss the problem, users, constraints, and desired outcome.</p></li>
+              <li><span class="mono">02</span><strong>Check feasibility</strong><p>Review assumptions, risks, existing systems, and possible approaches.</p></li>
+              <li><span class="mono">03</span><strong>Agree the scope</strong><p>Define deliverables, responsibilities, milestones, and a project-specific estimate.</p></li>
+              <li><span class="mono">04</span><strong>Build and review</strong><p>Work through agreed checkpoints and validate changes with stakeholders.</p></li>
+            </ol>
+          </section>
+          <section class="service-orbit-panel" aria-labelledby="service-orbit-title">
+            <div class="visual-panel-heading"><span class="mono project-tag">EXPLORE BY CONNECTION</span><h3 id="service-orbit-title">Service orbit map.</h3><p>Select an area to open its service details. Related areas are illustrative starting points.</p></div>
+            <div class="service-orbit" role="group" aria-label="Related service areas">
+              <span class="orbit-ring orbit-ring-outer" aria-hidden="true"></span><span class="orbit-ring orbit-ring-inner" aria-hidden="true"></span>
+              <button type="button" class="orbit-node orbit-center" data-orbit-service="Custom software"><span class="mono">FOUNDATION</span><strong>Custom software</strong></button>
+              <button type="button" class="orbit-node orbit-n1" data-orbit-service="Applied AI"><span class="mono">INTELLIGENCE</span><strong>Applied AI</strong></button>
+              <button type="button" class="orbit-node orbit-n2" data-orbit-service="Computer vision"><span class="mono">PERCEPTION</span><strong>Computer vision</strong></button>
+              <button type="button" class="orbit-node orbit-n3" data-orbit-service="Data insights"><span class="mono">SIGNALS</span><strong>Data insights</strong></button>
+              <button type="button" class="orbit-node orbit-n4" data-orbit-service="System integration"><span class="mono">CONNECTIVITY</span><strong>System integration</strong></button>
+              <button type="button" class="orbit-node orbit-n5" data-orbit-service="Research prototyping"><span class="mono">DISCOVERY</span><strong>Prototyping</strong></button>
+            </div>
+          </section>
+          <section class="workflow-demo-panel" aria-labelledby="workflow-demo-title">
+            <div class="visual-panel-heading"><span class="mono project-tag">ILLUSTRATIVE WORKFLOW DEMO</span><h3 id="workflow-demo-title">See a workflow idea take shape.</h3><p>Example only—these steps are not a deployed Goldsmith product or a guaranteed result.</p></div>
+            <label class="workflow-select-label" for="workflow-demo-select">Choose a sample workflow
+              <select id="workflow-demo-select"><option value="support">Customer support request</option><option value="documents">Document review</option><option value="inventory">Inventory update</option></select>
+            </label>
+            <div class="workflow-demo" id="workflow-demo" aria-live="polite">
+              <article><span class="mono">TODAY / EXAMPLE</span><h4>Manual handoffs</h4><ol id="workflow-before"></ol></article>
+              <span class="workflow-arrow" aria-hidden="true">→</span>
+              <article class="workflow-proposed"><span class="mono">POSSIBLE DESIGN / HUMAN REVIEW</span><h4>Assisted workflow</h4><ol id="workflow-after"></ol></article>
+            </div>
+          </section>
+          <section class="demo-dashboard" aria-labelledby="demo-dashboard-title">
+            <div class="visual-panel-heading"><span class="mono project-tag">SAMPLE DATA / NOT LIVE METRICS</span><h3 id="demo-dashboard-title">Analytics, made visible.</h3><p>Illustrative values only, demonstrating how a dashboard can present agreed measures.</p></div>
+            <div class="dashboard-metrics">
+              <article><span class="mono">SAMPLE RECORDS</span><strong id="metric-records">1,240</strong><div class="metric-track"><span id="metric-records-bar"></span></div></article>
+              <article><span class="mono">SAMPLE TASKS REVIEWED</span><strong id="metric-reviewed">86%</strong><div class="metric-track"><span id="metric-reviewed-bar"></span></div></article>
+              <article><span class="mono">SAMPLE OPEN ITEMS</span><strong id="metric-open">18</strong><div class="metric-track"><span id="metric-open-bar"></span></div></article>
+            </div>
+            <label class="dashboard-select-label" for="dashboard-sample">View an example data scenario
+              <select id="dashboard-sample"><option value="support">Support workflow</option><option value="iot">IoT sensor pilot</option><option value="quality">Software quality review</option></select>
+            </label>
+          </section>
+          <div class="service-tools">
+            <label class="service-search-wrap">
+              <span class="sr-only">Search services</span>
+              <span aria-hidden="true">⌕</span>
+              <input id="service-search" type="search" placeholder="Find a service..." autocomplete="off">
+              <kbd><span id="service-total-count">46</span> SERVICES</kbd>
+            </label>
+            <div class="service-filters" id="service-filters" aria-label="Filter services">
+              <button type="button" class="service-filter is-active" data-filter="All">All services <span>46</span></button>
+            </div>
+          </div>
+          <div class="catalog-view-controls" role="group" aria-label="Services layout">
+            <span class="mono">VIEW</span>
+            <button type="button" class="view-mode-button is-active" data-view-target="services" data-view-mode="grid" aria-pressed="true">Grid</button>
+            <button type="button" class="view-mode-button" data-view-target="services" data-view-mode="list" aria-pressed="false">List</button>
+          </div>
+          <div class="service-catalog" aria-label="Scrollable service catalog">
+          <div class="service-grid" id="service-grid" data-view-container="services" aria-live="polite" tabindex="0" aria-label="Service results. Scroll to explore, then press Enter on a service to open its details.">
+            <article class="service-card">
+              <span class="service-index mono">01 / SOFTWARE</span><span class="service-icon" aria-hidden="true">⌘</span>
+              <h3>Custom software</h3><p>Web platforms, business tools, and dependable digital products designed around real workflows.</p>
+              <a href="#contact" aria-label="Discuss custom software">↗</a>
+            </article>
+            <article class="service-card">
+              <span class="service-index mono">02 / INTELLIGENCE</span><span class="service-icon" aria-hidden="true">✳</span>
+              <h3>Applied AI</h3><p>Machine learning, automation, and computer vision that make complex work simpler.</p>
+              <a href="#contact" aria-label="Discuss applied AI">↗</a>
+            </article>
+            <article class="service-card">
+              <span class="service-index mono">03 / AWARENESS</span><span class="service-icon" aria-hidden="true">◎</span>
+              <h3>Security systems</h3><p>Responsible monitoring and surveillance concepts designed to support human decisions.</p>
+              <a href="#contact" aria-label="Discuss security systems">↗</a>
+            </article>
+            <article class="service-card">
+              <span class="service-index mono">04 / PROTOTYPING</span><span class="service-icon" aria-hidden="true">↗</span>
+              <h3>R&D collaboration</h3><p>Early prototypes, technical validation, and practical roadmaps for ambitious ideas.</p>
+              <a href="#contact" aria-label="Discuss research and development">↗</a>
+            </article>
+            <article class="service-card">
+              <span class="service-index mono">05 / AERIAL SYSTEMS</span><span class="service-icon" aria-hidden="true">⌁</span>
+              <h3>AI-assisted drones</h3><p>Responsible drone concepts for site inspection, mapping, and environmental observation—with human supervision.</p>
+              <a href="#contact" aria-label="Discuss AI-assisted drone concepts">↗</a>
+            </article>
+            <article class="service-card">
+              <span class="service-index mono">06 / AUTOMATION</span><span class="service-icon" aria-hidden="true">⟳</span>
+              <h3>Intelligent workflows</h3><p>AI-assisted tools that organize information, reduce repetitive work, and keep people in control.</p>
+              <a href="#contact" aria-label="Discuss intelligent workflows">↗</a>
+            </article>
+          </div>
+          </div>
+          <div class="catalog-scroll-hint mono"><span id="catalog-result-count">46 SERVICES</span><span>SCROLL INSIDE TO EXPLORE <span aria-hidden="true">↓</span></span></div>
+          <section class="service-compare-panel" aria-labelledby="service-compare-title">
+            <div class="visual-panel-heading"><span class="mono project-tag">SIDE-BY-SIDE SERVICE GUIDE</span><h3 id="service-compare-title">Compare service areas.</h3><p>Compare their focus and planning considerations; project scope, fit, and availability need discussion.</p></div>
+            <div class="service-compare-controls">
+              <label for="service-compare-a">First service<select id="service-compare-a"></select></label>
+              <span class="mono" aria-hidden="true">VS</span>
+              <label for="service-compare-b">Second service<select id="service-compare-b"></select></label>
+            </div>
+            <div class="service-compare-output" id="service-compare-output" aria-live="polite"></div>
+          </section>
+        </div>
+      </section>
+
+      <dialog class="service-dialog" id="service-dialog" aria-labelledby="service-dialog-title">
+        <img class="dialog-ambient-image" src="" alt="" aria-hidden="true">
+        <div class="service-dialog-layout">
+          <div class="service-dialog-image">
+            <img id="service-dialog-img" src="" alt="">
+            <span class="service-dialog-counter mono" id="service-dialog-counter"></span>
+            <span class="service-dialog-image-caption mono" id="service-dialog-image-caption"></span>
+            <button type="button" class="dialog-arrow dialog-image-prev" id="service-image-prev" aria-label="Previous service image">←</button>
+            <button type="button" class="dialog-arrow dialog-image-next" id="service-image-next" aria-label="Next service image">→</button>
+          </div>
+          <div class="service-dialog-copy">
+            <button type="button" class="dialog-close" id="service-dialog-close" aria-label="Close service details">×</button>
+            <span class="mono project-tag" id="service-dialog-category"></span>
+            <h2 id="service-dialog-title"></h2>
+            <p id="service-dialog-summary"></p>
+            <p id="service-dialog-detail"></p>
+            <p class="dialog-inquiry-guide"><strong>To scope an inquiry, include:</strong> your goal and users, relevant tools or data, required integrations, timeline, and constraints.</p>
+            <a class="button button-primary" id="service-dialog-cta" href="#contact">Enquire about this service <span aria-hidden="true">↗</span></a>
+            <div class="service-dialog-navigation">
+              <button type="button" id="service-prev">← Previous service</button>
+              <button type="button" id="service-next">Next service →</button>
+            </div>
+            <div class="dialog-slide-hint mono">USE ← / → FOR SERVICES · USE IMAGE CONTROLS OR SWIPE FOR PHOTOS</div>
+          </div>
+        </div>
+      </dialog>
+      <dialog class="service-dialog product-detail-dialog" id="product-dialog" aria-labelledby="product-dialog-title">
+        <img class="dialog-ambient-image" src="" alt="" aria-hidden="true">
+        <div class="service-dialog-layout">
+          <div class="service-dialog-image">
+            <img id="product-dialog-img" src="" alt="">
+            <span class="service-dialog-counter mono" id="product-dialog-counter"></span>
+            <span class="service-dialog-image-caption mono" id="product-dialog-image-caption"></span>
+            <button type="button" class="dialog-arrow dialog-image-prev" id="product-image-prev" aria-label="Previous product image">←</button>
+            <button type="button" class="dialog-arrow dialog-image-next" id="product-image-next" aria-label="Next product image">→</button>
+          </div>
+          <div class="service-dialog-copy">
+            <button type="button" class="dialog-close" id="product-dialog-close" aria-label="Close product details">×</button>
+            <span class="mono project-tag" id="product-dialog-category"></span>
+            <span class="product-dialog-availability mono" id="product-dialog-availability"></span>
+            <h2 id="product-dialog-title"></h2>
+            <p id="product-dialog-summary"></p>
+            <p id="product-dialog-detail"></p>
+            <p class="dialog-inquiry-guide" id="product-dialog-guide"></p>
+            <div class="product-dialog-actions">
+              <button type="button" class="button button-primary" id="product-dialog-add">Add to inquiry bag ↗</button>
+              <button type="button" class="product-learn" id="product-dialog-inquire">Ask about price & availability ↗</button>
+              <button type="button" class="product-learn" id="product-dialog-service">Explore related service ↗</button>
+            </div>
+            <div class="service-dialog-navigation">
+              <button type="button" id="product-prev">← Previous product</button>
+              <button type="button" id="product-next">Next product →</button>
+            </div>
+            <div class="dialog-slide-hint mono">USE ← / → FOR PRODUCTS · USE IMAGE CONTROLS OR SWIPE FOR PHOTOS</div>
+          </div>
+        </div>
+      </dialog>
+
+      <section class="robot-section section-shell" id="robotics">
+        <div class="robot-image">
+          <img src="assets/armored-inspection-robot.svg" alt="Goldsmith GS-R01 unarmed, human-supervised field inspection robot concept illustration">
+          <div class="robot-image-tag mono">FIELD SYSTEMS / CONCEPT STUDY</div>
+        </div>
+        <div class="robot-copy">
+          <div class="section-kicker"><span class="mono">03</span><span class="kicker-rule"></span><span>THE NEXT FRONTIER</span></div>
+          <span class="mono project-tag">GOLDSMITH LABS — PROTOTYPE 01</span>
+          <h2>Robotics with<br><span class="accent-text">responsibility.</span></h2>
+          <p>Our concept work explores AI-assisted robots and drones for demanding environments. Possible applications include site inspection, mapping, environmental observation, and better situational awareness—with people supervising important decisions.</p>
+          <p class="small-note">A research concept — not a deployed or weaponized system. Human oversight remains central to every design.</p>
+          <a class="text-link" href="#collaboration">Explore a collaboration <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
+
+      <section class="products-section section-shell" id="products">
+        <div class="section-kicker"><span class="mono">07</span><span class="kicker-rule"></span><span>PRODUCT CONCEPT CATALOG</span></div>
+        <div class="section-heading-row">
+          <h2>One catalog.<br><span class="accent-text">Every service, visualized.</span></h2>
+          <p>Explore a product concept for each service, plus civilian drone studies. These are illustrative directions—not ready-made, deployed, or purchasable products.</p>
+        </div>
+        <div class="product-navigation" aria-label="Product catalog navigation">
+          <label class="product-search">
+            <span class="sr-only">Search product concepts</span>
+            <span aria-hidden="true">⌕</span>
+            <input id="product-search" type="search" placeholder="Search product concepts..." autocomplete="off">
+          </label>
+          <nav class="product-filters" id="product-filters" aria-label="Browse product categories"></nav>
+          <div class="product-results mono"><span id="product-result-count">49 CONCEPTS</span><span>CHOOSE A CATEGORY OR SCROLL TO EXPLORE</span></div>
+        </div>
+        <div class="catalog-view-controls" role="group" aria-label="Products layout">
+          <span class="mono">VIEW</span>
+          <button type="button" class="view-mode-button is-active" data-view-target="products" data-view-mode="grid" aria-pressed="true">Grid</button>
+          <button type="button" class="view-mode-button" data-view-target="products" data-view-mode="list" aria-pressed="false">List</button>
+        </div>
+        <div class="product-catalog" aria-label="Scrollable product concept catalog">
+          <div class="product-grid" id="product-grid" data-view-container="products" aria-live="polite" tabindex="0" aria-label="Product concepts. Scroll to explore, then use the buttons to view service details or add a concept to your inquiry bag."></div>
+        </div>
+        <div class="catalog-scroll-hint mono"><span id="product-scroll-count">49 CONCEPTS</span><span>SCROLL INSIDE TO EXPLORE <span aria-hidden="true">↓</span></span></div>
+        <p class="small-note product-disclaimer">Concept catalog only · No checkout, inventory, or deployed-product claims. Drone concepts are non-weaponized and human-supervised. Add concepts to your inquiry bag to discuss feasibility.</p>
+        <section class="comparison-panel" aria-labelledby="comparison-title">
+          <div class="comparison-heading"><div><span class="mono project-tag">SIDE-BY-SIDE REVIEW</span><h3 id="comparison-title">Compare concepts</h3><p>Select up to three concepts from the catalog to review them together.</p></div><button type="button" class="text-link" id="compare-clear">Clear selection</button></div>
+          <div id="comparison-output" class="comparison-output" aria-live="polite"><p>Select a concept using its Compare checkbox to begin.</p></div>
+        </section>
+      </section>
+
+      <section class="hardware-section section-shell" id="hardware">
+        <div class="section-kicker"><span class="mono">09</span><span class="kicker-rule"></span><span>FIELD HARDWARE / COMPONENT GUIDE</span></div>
+        <div class="section-heading-row">
+          <h2>Start with the right<br><span class="accent-text">building blocks.</span></h2>
+          <p>Suggested parts for general IoT prototypes and civilian, operator-controlled mapping or inspection drones. Add components to your inquiry bag to discuss compatibility and sourcing.</p>
+        </div>
+        <div class="hardware-notice">
+          <span class="hardware-notice-mark" aria-hidden="true">⌑</span>
+          <p><strong>Selection guide, not a bill of materials.</strong> These are example component types—not confirmed inventory, specified models, or validated combinations. Check electrical compatibility, payload limits, radio rules, and local regulations before assembly.</p>
+        </div>
+        <div class="hardware-tools">
+          <section class="hardware-tool-panel iot-builder" aria-labelledby="iot-builder-title">
+            <span class="mono project-tag">PROTOTYPE PLANNER / 01</span>
+            <h3 id="iot-builder-title">IoT system builder</h3>
+            <p>Choose a few requirements for a starter shortlist. This is a planning aid, not an electrical design or compatibility guarantee.</p>
+            <div class="builder-fields">
+              <label for="iot-controller">Controller
+                <select id="iot-controller"><option value="iot-esp32">ESP32-class board</option><option value="iot-arduino">Arduino-compatible board</option><option value="iot-pi-gateway">Raspberry Pi-class gateway</option></select>
+              </label>
+              <label for="iot-connectivity">Connectivity
+                <select id="iot-connectivity"><option>Wi-Fi / Bluetooth</option><option>LoRa</option><option>Cellular</option><option>Wired RS-485 / Modbus</option></select>
+              </label>
+              <label for="iot-sensor">Primary sensor
+                <select id="iot-sensor"><option value="iot-temp-humidity">Temperature / humidity</option><option value="iot-air-quality">Air quality</option><option value="iot-vibration">Vibration</option><option value="iot-water-soil">Water / soil moisture</option><option value="iot-gps">GNSS / GPS location</option></select>
+              </label>
+              <label for="iot-environment">Deployment environment
+                <select id="iot-environment"><option>Indoor prototype</option><option>Outdoor / weather exposed</option><option>Industrial / electrically noisy</option></select>
+              </label>
+            </div>
+            <button type="button" class="button button-primary" id="iot-build">Build my shortlist</button>
+            <div class="builder-result" id="iot-builder-result" aria-live="polite"><p>Choose your requirements and build a shortlist to see suggested components and review checks.</p></div>
+          </section>
+          <section class="hardware-tool-panel drone-planner" aria-labelledby="drone-planner-title">
+            <span class="mono project-tag">CIVILIAN SURVEY DEMO / 02</span>
+            <h3 id="drone-planner-title">Survey planning brief</h3>
+            <p>Draft a human-reviewed planning brief for a lawful mapping or inspection task. This demo does not generate flight paths or control a drone.</p>
+            <div class="builder-fields">
+              <label for="survey-purpose">Survey purpose
+                <select id="survey-purpose"><option>Infrastructure inspection</option><option>Site mapping</option><option>Environmental observation</option></select>
+              </label>
+              <label for="survey-site-type">Site context
+                <select id="survey-site-type"><option>Open site with permission</option><option>Controlled facility with permission</option><option>Area with people nearby</option></select>
+              </label>
+              <label for="survey-notes">Site notes (avoid sensitive personal details)
+                <input id="survey-notes" type="text" maxlength="160" placeholder="e.g. roof survey, north block">
+              </label>
+            </div>
+            <button type="button" class="button button-primary" id="survey-build">Create planning brief</button>
+            <div class="builder-result" id="survey-result" aria-live="polite"><p>Set the survey purpose and site context to create a checklist-style brief.</p></div>
+            <button type="button" class="text-link" id="survey-download" disabled>Download planning brief</button>
+          </section>
+        </div>
+        <section class="hardware-tool-panel compatibility-panel" aria-labelledby="compatibility-title">
+          <span class="mono project-tag">BEFORE ASSEMBLY / 03</span>
+          <h3 id="compatibility-title">Compatibility checklist & bill of materials</h3>
+          <p>Choose a system type to get review prompts. Select component rows below and download a draft BOM—verify every part against manufacturer specifications before purchase or assembly.</p>
+          <div class="compatibility-checks">
+            <label for="compat-system">System
+              <select id="compat-system"><option>Low-voltage IoT prototype</option><option>Outdoor IoT sensor node</option><option>Civilian mapping drone concept</option></select>
+            </label>
+            <div id="compatibility-result" class="builder-result" aria-live="polite">Check supply voltage/current, logic levels, interfaces, connector types, enclosure rating, and applicable radio/safety rules.</div>
+          </div>
+          <div class="bom-actions"><span class="mono" id="bom-count">0 components selected</span><button type="button" class="button button-primary" id="bom-download">Download selected BOM</button><button type="button" class="text-link" id="bom-clear">Clear selections</button></div>
+        </section>
+        <div class="catalog-view-controls" role="group" aria-label="Hardware layout">
+          <span class="mono">VIEW</span>
+          <button type="button" class="view-mode-button is-active" data-view-target="hardware" data-view-mode="grid" aria-pressed="true">Grid</button>
+          <button type="button" class="view-mode-button" data-view-target="hardware" data-view-mode="list" aria-pressed="false">List</button>
+        </div>
+        <div class="hardware-groups">
+          <section class="hardware-group" aria-labelledby="iot-hardware-title">
+            <header><span class="mono project-tag">01 / CONNECTED DEVICES</span><h3 id="iot-hardware-title">IoT assembly</h3><p>Controllers, sensing, connectivity, power, and protection for an early prototype.</p><button class="hardware-catalog-link" type="button" data-product-category="IoT hardware">Browse IoT hardware in product catalog ↗</button></header>
+            <div class="hardware-grid" id="iot-hardware-grid" data-view-container="hardware" aria-label="IoT assembly component suggestions"></div>
+          </section>
+          <section class="hardware-group" aria-labelledby="drone-hardware-title">
+            <header><span class="mono project-tag">02 / CIVILIAN FIELD SYSTEMS</span><h3 id="drone-hardware-title">Drone & mapping</h3><p>Non-weaponized flight, observation, positioning, and ground-support components.</p><button class="hardware-catalog-link" type="button" data-product-category="Drone hardware">Browse drone hardware in product catalog ↗</button></header>
+            <div class="hardware-grid" id="drone-hardware-grid" data-view-container="hardware" aria-label="Civilian drone and mapping component suggestions"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="projects-section" id="projects">
+        <div class="section-shell">
+          <div class="section-kicker"><span class="mono">08</span><span class="kicker-rule"></span><span>PROJECT CONCEPTS & DEMOS</span></div>
+          <div class="section-heading-row">
+            <h2>Ideas in motion.<br><span class="accent-text">Clearly labeled.</span></h2>
+            <p>Illustrative concept studies, not completed client projects or claims of deployed capability. Open a concept to browse its separate image set.</p>
+          </div>
+          <div class="project-filters" id="project-filters" role="group" aria-label="Filter project concept studies"></div>
+          <div class="catalog-view-controls" role="group" aria-label="Projects layout">
+            <span class="mono">VIEW</span>
+            <button type="button" class="view-mode-button is-active" data-view-target="projects" data-view-mode="grid" aria-pressed="true">Grid</button>
+            <button type="button" class="view-mode-button" data-view-target="projects" data-view-mode="list" aria-pressed="false">List</button>
+          </div>
+          <div class="project-grid" id="project-grid" data-view-container="projects"></div>
+        </div>
+      </section>
+
+      <section class="help-section section-shell" id="help">
+        <div class="section-kicker"><span class="mono">04</span><span class="kicker-rule"></span><span>HELP & FAQ</span></div>
+        <div class="help-grid">
+          <div class="help-intro">
+            <h2>Quick answers.<br><span class="accent-text">Real people, too.</span></h2>
+            <p>Have a question about what we build or how to get started? Browse the answers or ask Ananta.</p>
+            <button class="text-link help-chat-link" id="help-chat-link" type="button">Chat with Ananta <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="faq-list">
+            <details>
+              <summary>What can Goldsmith help me build?<span aria-hidden="true">+</span></summary>
+              <p>We work on custom software, applied AI and computer vision, responsible security systems, and early-stage technology prototypes.</p>
+            </details>
+            <details>
+              <summary>What kinds of software do you build?<span aria-hidden="true">+</span></summary>
+              <p>We work on custom digital products, business tools, applied AI, computer vision, and responsible technology concepts. Each project is shaped around its goals and users.</p>
+            </details>
+            <details>
+              <summary>How do I start a project or collaboration?<span aria-hidden="true">+</span></summary>
+              <p>Send a short description of the challenge, your goals, and any timeline using the contact form or email. The website does not list a response timeframe.</p>
+            </details>
+            <details>
+              <summary>Do you publish fixed pricing or delivery timelines?<span aria-hidden="true">+</span></summary>
+              <p>No fixed rates or delivery dates are published. A project-specific estimate and milestones can only be discussed after the requirements, constraints, and scope are understood.</p>
+            </details>
+            <details>
+              <summary>What technology languages do you work with?<span aria-hidden="true">+</span></summary>
+              <p>Goldsmith's stated areas include Java, PHP, and Python, along with web platforms, applied AI, and connected-system concepts. The right tools depend on project requirements and feasibility.</p>
+            </details>
+            <details>
+              <summary>Is the robotics system available now?<span aria-hidden="true">+</span></summary>
+              <p>No. The robot shown is a concept study exploring inspection, situational awareness, and human-robot collaboration. It is not a deployed or weaponized product.</p>
+            </details>
+            <details>
+              <summary>What are the AI drone concepts for?<span aria-hidden="true">+</span></summary>
+              <p>Concept applications include supervised site inspection, mapping, and environmental observation. They are exploratory ideas, not a deployed product; no weaponization or autonomous targeting is involved.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="collaboration-section" id="collaboration">
+        <div class="section-shell collaboration-inner">
+          <div class="section-kicker"><span class="mono">05</span><span class="kicker-rule"></span><span>BUILD SOMETHING TOGETHER</span></div>
+          <div class="collaboration-content">
+            <h2>Big idea?<br><span class="accent-text">Let's make it work.</span></h2>
+            <div><p>We collaborate with founders, teams, and organizations ready to turn a challenge into a considered technology solution.</p><a class="button button-primary" href="#contact">Start a conversation <span aria-hidden="true">↗</span></a></div>
+          </div>
+          <div class="collaboration-decoration mono" aria-hidden="true">GS / OPEN FOR<br>GOOD IDEAS</div>
+        </div>
+      </section>
+
+      <section class="contact-section section-shell" id="contact">
+        <div class="contact-copy">
+          <div class="section-kicker"><span class="mono">06</span><span class="kicker-rule"></span><span>GET IN TOUCH</span></div>
+          <h2>Let's talk<br><span class="accent-text">possibilities.</span></h2>
+          <p>Tell us what you're working on. We would love to hear about it.</p>
+          <a class="email-link" href="mailto:services@goldsmith.gold.in">services@goldsmith.gold.in <span aria-hidden="true">↗</span></a>
+        </div>
+        <form class="contact-card contact-form" id="contact-form" name="project-inquiry" method="POST" action="/thank-you.html" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="project-inquiry">
+          <p class="honeypot-field" hidden><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+          <span class="mono">TELL US ABOUT YOUR PROJECT</span>
+          <p>Your inquiry will be sent through the website form service. If that service is unavailable, you can open a prefilled email instead.</p>
+          <details class="brief-builder">
+            <summary>Need a starting point? Build a project brief <span aria-hidden="true">+</span></summary>
+            <p>Share a few basics and we’ll draft a message you can edit. Nothing is sent until you submit the form.</p>
+            <div class="brief-builder-fields">
+              <label for="brief-service">Area of interest
+                <select id="brief-service">
+                  <option value="">Choose later</option>
+                  <option>Custom software</option>
+                  <option>Applied AI / computer vision</option>
+                  <option>Security systems</option>
+                  <option>AI-assisted drones</option>
+                  <option>Intelligent workflows</option>
+                  <option>R&amp;D collaboration</option>
+                  <option>Something else</option>
+                </select>
+              </label>
+              <label for="brief-goal">What would you like to achieve?
+                <input id="brief-goal" type="text" maxlength="240" placeholder="e.g. simplify customer support">
+              </label>
+              <label for="brief-users">Who will use it?
+                <input id="brief-users" type="text" maxlength="160" placeholder="e.g. our customers and support team">
+              </label>
+              <label for="brief-timeline">Preferred timeline
+                <select id="brief-timeline">
+                  <option value="">Not decided</option>
+                  <option>Exploring options</option>
+                  <option>Within 1–3 months</option>
+                  <option>Within 3–6 months</option>
+                  <option>Flexible</option>
+                </select>
+              </label>
+              <label for="brief-constraints">Important needs or constraints
+                <input id="brief-constraints" type="text" maxlength="240" placeholder="e.g. mobile-friendly, existing tools">
+              </label>
+            </div>
+            <button type="button" class="button button-primary" id="brief-create">Add details to my message</button>
+            <span class="brief-builder-status mono" id="brief-builder-status" role="status" aria-live="polite"></span>
+          </details>
+          <label for="contact-name">Your name</label>
+          <input id="contact-name" name="name" type="text" autocomplete="name" placeholder="Jane Smith" required maxlength="80">
+          <label for="contact-email">Email address</label>
+          <input id="contact-email" name="email" type="email" autocomplete="email" placeholder="jane@company.com" required maxlength="254">
+          <label for="contact-service">What can we help with?</label>
+          <select id="contact-service" name="service" required>
+            <option value="" selected disabled>Choose a service</option>
+            <option>Custom software</option>
+            <option>Applied AI / computer vision</option>
+            <option>Security systems</option>
+            <option>AI-assisted drones</option>
+            <option>Intelligent workflows</option>
+            <option>R&amp;D collaboration</option>
+            <option>Something else</option>
+          </select>
+          <label for="contact-message">A little about your project</label>
+          <textarea id="contact-message" name="message" rows="4" placeholder="What are you looking to build?" required maxlength="2000"></textarea>
+          <label class="inquiry-consent" for="inquiry-consent">
+            <input id="inquiry-consent" name="inquiry-consent" type="checkbox" value="confirmed" required>
+            <span>I have read the <a href="privacy.html" target="_blank" rel="noreferrer">Privacy notice</a> and agree to be contacted about this inquiry.</span>
+          </label>
+          <button class="button button-primary" type="submit">Send project inquiry <span aria-hidden="true">↗</span></button>
+          <a class="button email-fallback" id="contact-email-fallback" href="mailto:services@goldsmith.gold.in" hidden>Open a prefilled email instead ↗</a>
+          <button class="text-link inquiry-export" type="button" id="inquiry-export">Download inquiry copy</button>
+          <span class="contact-response mono" id="contact-status" role="status" aria-live="polite">Prefer email? Write to services@goldsmith.gold.in.</span>
+          <span class="contact-response mono" id="contact-confirmation" role="status" aria-live="polite"></span>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="section-shell footer-main">
+        <div class="footer-brand-column">
+          <a class="brand" href="#home" aria-label="Goldsmith home"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 36"><path d="M16 2 28 7v9c0 8-4.8 14-12 18C8.8 30 4 24 4 16V7L16 2Z"/><path d="M11 21V13h10v4h-5m0-4v8h5"/><circle cx="23" cy="21" r="1"/></svg></span><span>goldsmith<span class="brand-period">.</span></span></a>
+          <p>Thoughtful software, AI, and connected-system concepts designed around real-world needs.</p>
+          <span class="footer-disclaimer">Products, hardware, and projects shown here are illustrative concepts—not confirmed stock or deployments.</span>
+        </div>
+        <nav class="footer-column" aria-label="Explore">
+          <h2>Explore</h2>
+          <a href="#services">Services</a><a href="#products">Products</a><a href="#hardware">Hardware</a><a href="#projects">Projects</a>
+        </nav>
+        <nav class="footer-column" aria-label="Company">
+          <h2>Company</h2>
+          <a href="#about">About Goldsmith</a><a href="#collaboration">Collaborate</a><a href="#help">Help &amp; FAQs</a><a href="sitemap.html">Full sitemap</a>
+        </nav>
+        <div class="footer-column footer-contact">
+          <h2>Talk to the team</h2>
+          <a class="footer-email" href="mailto:services@goldsmith.gold.in">services@goldsmith.gold.in <span aria-hidden="true">↗</span></a>
+          <a href="#contact">Send a project inquiry</a>
+          <a href="#help">Chat with Ananta ↗</a>
+          <span>Social profiles will be linked here once official accounts are confirmed.</span>
+        </div>
+      </div>
+      <div class="section-shell footer-bottom"><span>© <span id="year"></span> Goldsmith. All rights reserved.</span><nav class="legal-links" aria-label="Legal and privacy"><a href="sitemap.html">Sitemap</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><button type="button" id="privacy-settings">Cookie settings</button></nav><a href="#home">Back to top ↑</a></div>
+    </footer>
+
+    <nav class="page-controls" aria-label="Section navigation">
+      <button type="button" id="section-back" aria-label="Previous page section" title="Previous section">←</button>
+      <span class="mono" id="section-position" aria-live="polite">01 / 09</span>
+      <button type="button" id="section-forward" aria-label="Next page section" title="Next section">→</button>
+    </nav>
+
+    <button class="chat-launcher" id="chat-launcher" type="button" aria-label="Chat with Ananta" aria-expanded="false">
+      <svg class="ananta-mark chat-launcher-icon" viewBox="0 0 40 40" aria-hidden="true"><circle class="ananta-orbit" cx="20" cy="20" r="16"/><path d="M12 17.5a8 8 0 0 1 16 0v7a3 3 0 0 1-3 3h-2v-8h5M12 20h5v8h-2a3 3 0 0 1-3-3v-5Zm8-9v3m-4.5-2 1.3 2.4m7.7-2.4-1.3 2.4"/><circle cx="20" cy="20" r="1.2"/></svg><span>Ask Ananta</span>
+    </button>
+    <section class="chat-panel" id="chat-panel" aria-label="Ananta chatbot" aria-hidden="true">
+      <div class="chat-head"><span class="chat-avatar" aria-hidden="true"><svg class="ananta-mark" viewBox="0 0 40 40"><circle class="ananta-orbit" cx="20" cy="20" r="16"/><path d="M12 17.5a8 8 0 0 1 16 0v7a3 3 0 0 1-3 3h-2v-8h5M12 20h5v8h-2a3 3 0 0 1-3-3v-5Zm8-9v3m-4.5-2 1.3 2.4m7.7-2.4-1.3 2.4"/><circle cx="20" cy="20" r="1.2"/></svg></span><div><strong>Ananta</strong><span><i class="status-dot"></i> Goldsmith guide · Copilot for open questions</span></div><button class="chat-menu-toggle" type="button" id="chat-menu-toggle" aria-expanded="true" aria-controls="chat-main-menu">Main menu <span aria-hidden="true">⌄</span></button><button type="button" id="chat-clear" aria-label="Clear conversation" title="Clear conversation">↺</button><button type="button" id="chat-close" aria-label="Close chat">×</button></div>
+      <nav class="chat-main-menu" id="chat-main-menu" aria-label="Ananta main menu">
+        <span class="chat-menu-heading mono">EXPLORE GOLDSMITH</span>
+        <button type="button" data-prompt="What services do you offer?"><span class="chat-menu-index mono">01</span><strong>Services</strong><span class="chat-menu-count" id="chat-service-count">46</span></button>
+        <button type="button" data-prompt="Show me the product concepts"><span class="chat-menu-index mono">02</span><strong>Products</strong><span class="chat-menu-count" id="chat-product-count">49</span></button>
+        <button type="button" data-prompt="What hardware is suggested?"><span class="chat-menu-index mono">03</span><strong>Hardware</strong><span class="chat-menu-count" id="chat-hardware-count">41</span></button>
+        <button type="button" data-prompt="Show me the project concepts"><span class="chat-menu-index mono">04</span><strong>Projects</strong><span class="chat-menu-count" id="chat-project-count">5</span></button>
+        <button type="button" data-prompt="What visual demos can I explore?"><span class="chat-menu-index mono">05</span><strong>Visual demos</strong><span class="chat-menu-arrow" aria-hidden="true">↗</span></button>
+        <a href="#contact"><span class="chat-menu-index mono">06</span><strong>Contact team</strong><span class="chat-menu-arrow" aria-hidden="true">↗</span></a>
+        <button class="chat-menu-question" type="button" data-prompt="Help me find the best Goldsmith capability for my needs">Help me find the best fit ↗</button>
+        <button class="chat-menu-question" type="button" data-prompt="How do you handle security and privacy?">Ask about security &amp; privacy ↗</button>
+      </nav>
+      <div class="chat-messages" id="chat-messages" aria-live="polite">
+        <div class="chat-message bot-message">Hi, I'm Ananta. I answer catalog questions from Goldsmith's site and use GitHub Copilot for questions that need broader guidance when it's configured. Open-ended questions and recent chat context may be sent to Copilot. Please don't share confidential or sensitive information.</div>
+      </div>
+      <form class="chat-form" id="chat-form">
+        <label class="sr-only" for="chat-input">Message Ananta</label>
+        <input id="chat-input" name="message" type="text" placeholder="Ask me anything..." autocomplete="off" maxlength="1200" required>
+        <button type="submit" aria-label="Send message">↑</button>
+      </form>
+      <span class="chat-disclaimer">Catalog answers stay local · Open questions may go to Copilot · No site chat history saved</span>
+    </section>
+    <dialog class="privacy-dialog" id="privacy-dialog" aria-labelledby="privacy-dialog-title">
+      <button type="button" class="dialog-close" id="privacy-dialog-close" aria-label="Close privacy settings">×</button>
+      <span class="mono project-tag">PRIVACY PREFERENCES</span>
+      <h2 id="privacy-dialog-title">Your choices.</h2>
+      <p id="privacy-dialog-status">Google Analytics is not configured on this site, so no analytics tracking is loaded. It will only run after you opt in once a valid property ID is configured.</p>
+      <div class="privacy-actions"><button type="button" class="button privacy-choice" id="analytics-accept">Allow analytics</button><button type="button" class="button privacy-choice" id="analytics-decline">Keep analytics off</button></div>
+      <a href="privacy.html">Read the privacy notice</a>
+    </dialog>
+    <dialog class="showcase-dialog gallery-dialog" id="gallery-dialog" aria-labelledby="gallery-title">
+      <div class="showcase-head">
+        <div><span class="mono project-tag">SERVICE VISUAL INDEX · <span id="gallery-total">101</span></span><h2 id="gallery-title">Field notes & <span class="accent-text">visuals.</span></h2></div>
+        <button class="dialog-close" type="button" data-close-dialog="gallery-dialog" aria-label="Close service gallery">×</button>
+      </div>
+      <p class="showcase-notice">Illustrative stock imagery paired with service concepts; images do not represent completed Goldsmith client work or deployed equipment.</p>
+      <div class="gallery-tools">
+        <label for="gallery-category">Category
+          <select id="gallery-category"><option value="All">All categories</option></select>
+        </label>
+        <label for="gallery-search">Search visuals
+          <input id="gallery-search" type="search" placeholder="Search services..." autocomplete="off">
+        </label>
+        <span class="mono" id="gallery-results" aria-live="polite"></span>
+      </div>
+      <div class="gallery-feature">
+        <button type="button" class="dialog-arrow" id="gallery-prev" aria-label="Previous gallery image">←</button>
+        <figure id="gallery-figure"><img id="gallery-image" src="" alt=""><figcaption><span id="gallery-caption"></span><span class="mono" id="gallery-count">01 / 101</span></figcaption></figure>
+        <button type="button" class="dialog-arrow" id="gallery-next" aria-label="Next gallery image">→</button>
+      </div>
+      <p class="gallery-empty" id="gallery-empty" hidden>No visuals match. Try another category or search term.</p>
+      <div class="gallery-thumbnails" id="gallery-thumbnails" role="region" aria-label="Scrollable service image thumbnails" tabindex="0"></div>
+    </dialog>
+    <dialog class="showcase-dialog project-dialog" id="project-dialog" aria-labelledby="project-title">
+      <img class="dialog-ambient-image" src="" alt="" aria-hidden="true">
+      <button class="dialog-close" type="button" data-close-dialog="project-dialog" aria-label="Close project concept">×</button>
+      <div class="project-feature"><div class="project-photo-frame"><img id="project-image" src="" alt=""></div><div><span class="mono project-tag" id="project-label"></span><h2 id="project-title"></h2><p id="project-description"></p><p class="small-note">Illustrative concept study—not a completed client project or deployed product. No purchase, price, or stock is offered.</p><p class="dialog-inquiry-guide" id="project-inquiry-guide">For a useful discussion, share your use case, users, operating context, required integrations, budget range, and timeline. The team can then assess feasibility and provide a project-specific quote.</p><a class="button button-primary project-inquiry-button" id="project-inquire" href="#contact">Enquire about this concept ↗</a><div class="showcase-navigation"><button type="button" id="project-prev">← Previous concept</button><span class="mono" id="project-count"></span><button type="button" id="project-next">Next concept →</button></div><div class="showcase-navigation"><button type="button" id="project-image-prev">← Previous image</button><button type="button" id="project-image-next">Next image →</button></div></div></div>
+    </dialog>
+    <dialog class="showcase-dialog cart-dialog" id="cart-dialog" aria-labelledby="cart-title">
+      <button class="dialog-close" type="button" data-close-dialog="cart-dialog" aria-label="Close inquiry bag">×</button>
+      <span class="mono project-tag">PROJECT INQUIRY BAG</span><h2 id="cart-title">Concepts to <span class="accent-text">discuss.</span></h2>
+      <p class="showcase-notice">This is an inquiry list, not a shopping checkout. The drone entries are concept studies; no price, stock, or purchase is offered.</p>
+      <div id="cart-items" class="cart-items" aria-live="polite"></div>
+      <div class="cart-actions"><button type="button" class="text-link" id="cart-clear">Clear bag</button><button type="button" class="button button-primary" id="cart-inquiry">Add to project inquiry <span aria-hidden="true">↗</span></button></div>
+    </dialog>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Goldsmith",
+        "description": "AI-focused software company exploring custom digital products, applied AI, and responsible technology concepts.",
+        "email": "services@goldsmith.gold.in"
+      }
+    </script>
+    <script src="hero-scene.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

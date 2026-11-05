@@ -1,0 +1,2343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#090d18">
+    <title>Snake — Neon Arcade</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Courier New", monospace;
+        color: #23351c;
+        background: #dce8b5;
+        font-synthesis: none;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        padding: 24px 16px;
+        background:
+          radial-gradient(ellipse at 50% 25%, #f0f4d5 0, transparent 55%),
+          #dce8b5;
+      }
+
+      button { font: inherit; }
+
+      .console {
+        width: min(1240px, 100%);
+        padding: clamp(18px, 3vw, 36px);
+        border: 2px solid #718554;
+        border-radius: 28px;
+        background: linear-gradient(145deg, #f3f5d8, #d6e1ad);
+        box-shadow: 0 18px 45px #4e603326, inset 0 2px #ffffffa6;
+      }
+
+      .brand {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 2px 22px;
+        color: #64734b;
+        font-size: 11px;
+        font-weight: bold;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+      }
+
+      .brand span:last-child { font-size: 9px; letter-spacing: .1em; }
+
+      .arcade-layout {
+        display: grid;
+        grid-template-columns: minmax(210px, 1fr) minmax(320px, 400px) minmax(210px, 1fr);
+        align-items: start;
+        gap: clamp(16px, 2.4vw, 30px);
+      }
+
+      .game-column { min-width: 0; }
+
+      .screen {
+        position: relative;
+        overflow: hidden;
+        border: 3px solid #66744c;
+        border-radius: 9px;
+        background: #c6d69a;
+        box-shadow: inset 0 3px 12px #40543135, 0 2px #ffffff80;
+      }
+
+      canvas {
+        display: block;
+        width: 100%;
+        height: auto;
+        image-rendering: pixelated;
+        touch-action: none;
+      }
+
+      .hud {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+        padding: 14px 2px 12px;
+        font-size: 9px;
+        font-weight: bold;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        text-align: center;
+      }
+
+      .hud strong { display: block; margin-top: 3px; font-size: 15px; }
+
+      .level-progress {
+        height: 5px;
+        overflow: hidden;
+        margin: 0 2px 12px;
+        border-radius: 5px;
+        background: #adbe88;
+      }
+
+      .level-progress span {
+        display: block;
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: #536d37;
+        transition: width .2s ease;
+      }
+
+      .message {
+        min-height: 18px;
+        margin: 0 0 15px;
+        color: #5b6d43;
+        font-size: 11px;
+        text-align: center;
+      }
+
+      .settings {
+        margin: 0;
+        padding: 16px;
+        border: 1px solid #aebd8d;
+        border-radius: 8px;
+        background: #e8edca;
+      }
+
+      .settings h2 {
+        margin: 0 0 6px;
+        color: #4d6038;
+        font-size: 10px;
+        letter-spacing: .13em;
+        text-transform: uppercase;
+      }
+
+      .settings-description {
+        margin: 0 0 16px;
+        color: #75835d;
+        font-size: 9px;
+        line-height: 1.5;
+      }
+
+      .settings-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+      }
+
+      .setting {
+        display: grid;
+        gap: 6px;
+        color: #586b40;
+        font-size: 10px;
+        font-weight: bold;
+      }
+
+      .setting select {
+        width: 100%;
+        min-height: 34px;
+        padding: 0 8px;
+        border: 1px solid #b1bf91;
+        border-radius: 5px;
+        color: #344729;
+        background: #f3f5dc;
+        font: inherit;
+      }
+
+      .speed-control {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 34px;
+      }
+
+      .speed-control input { width: 100%; accent-color: #405632; }
+      .speed-control output { min-width: 16px; text-align: center; }
+
+      .color-control {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 34px;
+        padding: 4px 8px;
+        border: 1px solid #b1bf91;
+        border-radius: 5px;
+        background: #f3f5dc;
+      }
+
+      .color-control input {
+        width: 30px;
+        height: 24px;
+        padding: 0;
+        border: 0;
+        background: none;
+        cursor: pointer;
+      }
+
+      .life-setting {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #586b40;
+        font-size: 10px;
+        font-weight: bold;
+      }
+
+      .life-setting input { accent-color: #405632; }
+
+      .option-setting {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #586b40;
+        font-size: 10px;
+        font-weight: bold;
+      }
+
+      .option-setting input { accent-color: #405632; }
+
+      .sound-setting {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #586b40;
+        font-size: 10px;
+        font-weight: bold;
+      }
+
+      .sound-setting input { accent-color: #405632; }
+
+      .bonus-setting {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #586b40;
+        font-size: 10px;
+        font-weight: bold;
+      }
+
+      .bonus-setting input { accent-color: #405632; }
+
+      .shop {
+        margin-top: 16px;
+        padding: 14px;
+        border: 1px solid #aebd8d;
+        border-radius: 8px;
+        background: #e8edca;
+      }
+
+      .shop h3 {
+        margin: 0 0 4px;
+        color: #4d6038;
+        font-size: 10px;
+        letter-spacing: .13em;
+        text-transform: uppercase;
+      }
+
+      .shop-description, .shop-status {
+        margin: 0;
+        color: #75835d;
+        font-size: 9px;
+        line-height: 1.5;
+      }
+
+      .shop-list {
+        display: grid;
+        gap: 7px;
+        margin-top: 12px;
+      }
+
+      #color-shop-items, #accessory-shop-items {
+        display: grid;
+        gap: 7px;
+      }
+
+      .shop-swatch {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        margin-right: 5px;
+        border: 1px solid rgba(37, 45, 28, .3);
+        border-radius: 50%;
+        vertical-align: -2px;
+        box-shadow: inset -2px -2px 3px rgba(0, 0, 0, .24), inset 2px 2px 3px rgba(255, 255, 255, .65);
+      }
+
+      .shop-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+        border: 1px solid #c1cca5;
+        border-radius: 5px;
+        background: #f3f5dc;
+      }
+
+      .shop-item-name {
+        color: #4d6038;
+        font-size: 9px;
+        font-weight: bold;
+      }
+
+      .shop-item-price {
+        display: block;
+        margin-top: 3px;
+        color: #75835d;
+        font-size: 8px;
+        font-weight: normal;
+      }
+
+      .shop-item button {
+        min-width: 62px;
+        min-height: 30px;
+        padding: 0 8px;
+        border: 1px solid #536b3b;
+        border-radius: 4px;
+        color: #f0f4d8;
+        background: #405632;
+        cursor: pointer;
+        font-size: 9px;
+        font-weight: bold;
+      }
+
+      .shop-item button:disabled {
+        border-color: #bdc7a2;
+        color: #778360;
+        background: #e2e8c9;
+        cursor: not-allowed;
+      }
+
+      .actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .actions button {
+        min-width: 116px;
+        min-height: 42px;
+        padding: 0 18px;
+        border: 1px solid #425635;
+        border-radius: 6px;
+        color: #f0f4d8;
+        background: #405632;
+        box-shadow: 0 3px #293a22;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: bold;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+      }
+
+      .actions button:hover { background: #526a3e; }
+      .actions button:active { transform: translateY(2px); box-shadow: 0 1px #293a22; }
+      button:focus-visible { outline: 3px solid #8da655; outline-offset: 3px; }
+
+      .controls {
+        display: grid;
+        grid-template: repeat(2, 52px) / repeat(3, 62px);
+        justify-content: center;
+        gap: 8px;
+        width: max-content;
+        margin: 16px auto 20px;
+        padding: 8px;
+        border: 1px solid #aebd8d;
+        border-radius: 14px;
+        background: #dce6b9eF;
+        box-shadow: 0 4px 12px #40543120;
+        position: sticky;
+        bottom: max(10px, env(safe-area-inset-bottom));
+        z-index: 2;
+      }
+
+      .controls button {
+        border: 1px solid #728653;
+        border-radius: 9px;
+        color: #344729;
+        background: #f0f3d9;
+        box-shadow: 0 3px #bac895;
+        cursor: pointer;
+        font-size: 22px;
+        font-weight: bold;
+        touch-action: manipulation;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .controls button:active { transform: translateY(2px); background: #dce7b9; box-shadow: 0 1px #bac895; }
+      .up { grid-area: 1 / 2; }
+      .left { grid-area: 2 / 1; }
+      .down { grid-area: 2 / 2; }
+      .right { grid-area: 2 / 3; }
+
+      .hint {
+        margin: 16px 0 0;
+        color: #728257;
+        font-size: 9px;
+        line-height: 1.7;
+        text-align: center;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 920px) {
+        .arcade-layout {
+          grid-template-columns: minmax(175px, 1fr) minmax(290px, 360px) minmax(175px, 1fr);
+          gap: 12px;
+        }
+
+        .settings { padding: 12px; }
+      }
+
+      @media (max-width: 760px) {
+        body { display: block; padding: 16px 12px; }
+        .console { width: min(100%, 480px); margin-inline: auto; padding: 18px; border-radius: 22px 22px 36px 36px; }
+        .arcade-layout { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+        .game-column { grid-row: 1; }
+        .settings-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+        .settings-description { margin-bottom: 12px; }
+        .controls { grid-template: repeat(2, 54px) / repeat(3, 64px); }
+      }
+
+      @media (max-width: 380px) {
+        .console { padding: 14px; }
+        .settings-grid { grid-template-columns: minmax(0, 1fr); }
+      }
+
+      :root {
+        color-scheme: dark;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #f5f2e9;
+        background: #080b14;
+        font-synthesis: none;
+        --gold: #f1c979;
+        --gold-light: #ffe6aa;
+        --muted: #9aa4b6;
+        --glass: rgba(17, 23, 38, .82);
+      }
+
+      body {
+        display: block;
+        min-height: 100vh;
+        padding: clamp(18px, 5vh, 56px) 16px;
+        background:
+          radial-gradient(ellipse at 50% 5%, rgba(84, 99, 164, .24), transparent 38%),
+          radial-gradient(ellipse at 50% 65%, rgba(24, 96, 95, .15), transparent 48%),
+          #080b14;
+      }
+
+      button, input, select { font: inherit; }
+      button { color: inherit; }
+
+      .console {
+        width: min(100%, 980px);
+        margin: 0 auto;
+        padding: clamp(14px, 3vw, 28px);
+        border: 1px solid rgba(241, 201, 121, .23);
+        border-radius: 30px;
+        background: linear-gradient(145deg, rgba(28, 35, 54, .96), rgba(11, 16, 29, .98) 66%);
+        box-shadow: 0 32px 100px #0009, inset 0 1px #ffffff12, 0 0 80px #8b78ff0a;
+      }
+
+      .brand {
+        margin: 0 4px 20px;
+        color: var(--gold-light);
+        font-size: 13px;
+        letter-spacing: .24em;
+      }
+
+      .brand > span:first-child::before {
+        content: "✦";
+        margin-right: 10px;
+        color: var(--gold);
+      }
+
+      .brand span:last-child {
+        color: var(--muted);
+        font-size: 10px;
+        letter-spacing: .12em;
+      }
+
+      .arcade-layout { display: block; }
+
+      .game-column {
+        position: relative;
+        width: min(100%, 510px);
+        margin-inline: auto;
+        padding: clamp(12px, 3vw, 22px);
+        border: 1px solid rgba(255,255,255,.09);
+        border-radius: 24px;
+        background: linear-gradient(155deg, rgba(255,255,255,.055), rgba(255,255,255,.012));
+        box-shadow: inset 0 1px #ffffff0d, 0 18px 48px #0004;
+      }
+
+      .game-toolbar {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 0 auto 16px;
+      }
+
+      .toolbar-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 42px;
+        padding: 0 16px;
+        border: 1px solid rgba(241,201,121,.32);
+        border-radius: 13px;
+        color: var(--gold-light);
+        background: linear-gradient(145deg, #242941, #151a2b);
+        box-shadow: inset 0 1px #ffffff10, 0 5px 16px #0003;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .06em;
+        transition: border-color .2s, transform .2s, background .2s;
+      }
+
+      .toolbar-button:hover {
+        transform: translateY(-1px);
+        border-color: var(--gold);
+        background: #282d45;
+      }
+
+      .wallet-button { color: var(--gold-light); }
+      .wallet-icon { color: var(--gold); font-size: 16px; }
+
+      .task-button { position: relative; }
+
+      .task-badge {
+        display: inline-grid;
+        min-width: 20px;
+        height: 20px;
+        padding-inline: 5px;
+        place-items: center;
+        border-radius: 999px;
+        color: #241a0b;
+        background: linear-gradient(145deg, #ffe9ae, #dcb45c);
+        font-size: 10px;
+      }
+
+      .screen {
+        border: 1px solid #e8d49b80;
+        border-radius: 16px;
+        background: #c6d69a;
+        box-shadow: 0 0 0 4px #0b101e, 0 0 0 5px #ffffff14, 0 12px 32px #0006, inset 0 0 20px #0002;
+      }
+
+      canvas { image-rendering: pixelated; }
+
+      .hud {
+        gap: 5px;
+        margin-top: 5px;
+        padding: 16px 0 12px;
+        color: #9da8ba;
+        font-size: 8px;
+        letter-spacing: .11em;
+      }
+
+      .hud strong { color: #f5f2e9; font-size: 17px; letter-spacing: 0; }
+      .hud span:last-child strong { color: var(--gold); }
+
+      .record-note {
+        margin: -4px 0 12px;
+        color: #78859b;
+        font-size: 9px;
+        text-align: center;
+      }
+
+      .last-run-note {
+        margin: -8px 0 12px;
+        color: #aab4c6;
+        font-size: 9px;
+        line-height: 1.5;
+        text-align: center;
+      }
+
+      .level-progress {
+        height: 4px;
+        margin-bottom: 12px;
+        background: #ffffff14;
+      }
+
+      .level-progress span {
+        background: linear-gradient(90deg, #63e1c0, #f1c979);
+        box-shadow: 0 0 12px #f1c97980;
+      }
+
+      .coin-toast {
+        position: absolute;
+        z-index: 3;
+        top: 76px;
+        right: 22px;
+        padding: 10px 14px;
+        border: 1px solid #f1c97999;
+        border-radius: 14px;
+        color: #fff1cd;
+        background: linear-gradient(135deg, #4b3b22ee, #1d2032f2);
+        box-shadow: 0 8px 26px #0007, 0 0 24px #f1c97925;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .04em;
+        pointer-events: none;
+        opacity: 0;
+        transform: translateY(8px) scale(.96);
+        transition: opacity .2s, transform .2s;
+      }
+
+      .coin-toast.is-visible { opacity: 1; transform: translateY(0) scale(1); }
+      .coin-toast span { margin-right: 5px; color: var(--gold); }
+
+      .controls {
+        position: static;
+        z-index: auto;
+        gap: 7px;
+        margin: 10px auto 16px;
+        padding: 7px;
+        border-color: #ffffff14;
+        border-radius: 18px;
+        background: #ffffff08;
+        box-shadow: inset 0 1px #ffffff08;
+      }
+
+      .controls button {
+        border-color: #ffffff20;
+        border-radius: 12px;
+        color: #e8dfc7;
+        background: linear-gradient(145deg, #252b40, #171d2d);
+        box-shadow: 0 3px #0c111f, inset 0 1px #ffffff10;
+      }
+
+      .controls button:active {
+        transform: translateY(2px);
+        background: #333a50;
+        box-shadow: 0 1px #0c111f;
+      }
+
+      .message {
+        min-height: 18px;
+        margin-bottom: 13px;
+        color: #bec7d7;
+        font-size: 11px;
+      }
+
+      .actions button {
+        min-height: 46px;
+        border: 1px solid #f9dfa1;
+        border-radius: 13px;
+        color: #241a0b;
+        background: linear-gradient(145deg, #ffe9ae, #dcb45c);
+        box-shadow: 0 5px 14px #0004, inset 0 1px #fff9d8;
+        font-size: 10px;
+        letter-spacing: .1em;
+        transition: transform .18s, filter .18s;
+      }
+
+      .actions button:hover { filter: brightness(1.08); background: linear-gradient(145deg, #ffe9ae, #dcb45c); }
+      .actions button:active { transform: translateY(2px); box-shadow: 0 2px 8px #0004; }
+      .actions button:disabled { filter: saturate(.35) brightness(.7); }
+      .actions button + button {
+        border-color: #ffffff20;
+        color: #e8eaf2;
+        background: linear-gradient(145deg, #343a50, #202638);
+        box-shadow: 0 5px 14px #0004, inset 0 1px #ffffff12;
+      }
+      .actions button + button:hover { background: linear-gradient(145deg, #343a50, #202638); }
+
+      .hint {
+        color: #78859b;
+        font-size: 8px;
+        letter-spacing: .12em;
+      }
+
+      .settings-dialog {
+        width: min(440px, calc(100vw - 28px));
+        max-height: min(82dvh, 760px);
+        overflow: auto;
+        padding: 22px;
+        border: 1px solid #f1c97945;
+        border-radius: 24px;
+        color: #f5f2e9;
+        background: linear-gradient(155deg, #1e2539, #101522 70%);
+        box-shadow: 0 28px 100px #000b, inset 0 1px #ffffff12;
+      }
+
+      .settings-dialog[open] { animation: modal-enter .2s ease-out; }
+      .settings-dialog::backdrop { background: #050812b8; backdrop-filter: blur(12px); }
+      @keyframes modal-enter { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+      .dialog-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .dialog-heading h2 {
+        margin: 0 0 6px;
+        color: var(--gold-light);
+        font-size: 18px;
+        letter-spacing: -.03em;
+      }
+
+      .dialog-heading p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.5;
+      }
+
+      .dialog-close {
+        flex: 0 0 auto;
+        width: 34px;
+        height: 34px;
+        border: 1px solid #ffffff1b;
+        border-radius: 50%;
+        color: #e8eaf2;
+        background: #ffffff0b;
+        cursor: pointer;
+        font-size: 20px;
+        line-height: 1;
+      }
+
+      .settings-dialog .settings-grid { gap: 12px; }
+      .settings-dialog .setting,
+      .settings-dialog .life-setting,
+      .settings-dialog .sound-setting,
+      .settings-dialog .bonus-setting,
+      .settings-dialog .option-setting { color: #c3cada; }
+
+      .settings-dialog .setting select,
+      .settings-dialog .color-control {
+        min-height: 42px;
+        border: 1px solid #ffffff1c;
+        border-radius: 11px;
+        color: #f5f2e9;
+        background: #0c1220;
+      }
+
+      .settings-dialog .setting select:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+      .settings-dialog select option { color: #f5f2e9; background: #101522; }
+      .settings-dialog input[type="checkbox"] { width: 16px; height: 16px; accent-color: #e5bf70; }
+      .settings-dialog .color-control { padding-inline: 8px; }
+      .settings-dialog .settings-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .shop {
+        margin-top: 0;
+        padding: 0;
+        border: 0;
+        background: transparent;
+      }
+
+      .shop h3 {
+        color: #e9c982;
+        font-size: 10px;
+      }
+
+      .shop-description, .shop-status { color: var(--muted); font-size: 10px; }
+      .shop-status { min-height: 16px; margin-top: 10px; color: var(--gold-light); }
+
+      .shop-list { gap: 9px; margin-top: 16px; }
+
+      .shop-item {
+        padding: 11px 12px;
+        border-color: #ffffff14;
+        border-radius: 12px;
+        background: linear-gradient(120deg, #ffffff0b, #ffffff04);
+      }
+
+      .shop-item-name { color: #f1f0eb; font-size: 11px; }
+      .shop-item-price { color: #a7b0c1; font-size: 9px; }
+
+      .shop-item button {
+        min-width: 70px;
+        min-height: 34px;
+        border: 1px solid #f1c97966;
+        border-radius: 9px;
+        color: #211909;
+        background: linear-gradient(145deg, #ffe7a4, #dcb45c);
+        font-size: 9px;
+      }
+
+      .shop-item button:disabled {
+        border-color: #ffffff12;
+        color: #8d96a8;
+        background: #ffffff0a;
+      }
+
+      .task-list { display: grid; gap: 12px; }
+
+      .task-card {
+        padding: 14px;
+        border: 1px solid #ffffff15;
+        border-radius: 15px;
+        background: linear-gradient(125deg, #ffffff0d, #ffffff04);
+      }
+
+      .task-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .task-card h3 {
+        margin: 0 0 5px;
+        color: #f5f2e9;
+        font-size: 12px;
+      }
+
+      .task-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 10px;
+        line-height: 1.5;
+      }
+
+      .task-reward {
+        flex: 0 0 auto;
+        color: var(--gold-light) !important;
+        font-size: 10px !important;
+        font-weight: 700;
+      }
+
+      .task-progress-track {
+        height: 5px;
+        overflow: hidden;
+        margin: 12px 0 8px;
+        border-radius: 9px;
+        background: #ffffff14;
+      }
+
+      .task-progress-track span {
+        display: block;
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #63e1c0, #f1c979);
+        transition: width .2s ease;
+      }
+
+      .task-card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .task-count { color: #c3cada !important; }
+
+      .task-claim {
+        min-height: 32px;
+        padding: 0 12px;
+        border: 1px solid #f1c97966;
+        border-radius: 9px;
+        color: #211909;
+        background: linear-gradient(145deg, #ffe7a4, #dcb45c);
+        font-size: 9px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .task-claim:disabled {
+        border-color: #ffffff12;
+        color: #8d96a8;
+        background: #ffffff0a;
+        cursor: not-allowed;
+      }
+
+      .task-reset-note {
+        margin: 14px 0 0;
+        color: var(--muted);
+        font-size: 10px;
+        text-align: center;
+      }
+
+      button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+      @media (max-width: 760px) {
+        body { padding: max(12px, env(safe-area-inset-top)) 12px max(16px, env(safe-area-inset-bottom)); }
+        .console { width: min(100%, 480px); padding: 14px; border-radius: 26px; }
+        .brand { margin: 0 3px 14px; }
+        .arcade-layout { display: block; }
+        .game-column {
+          width: 100%;
+          padding: 12px;
+          border-radius: 20px;
+        }
+        .screen { border-radius: 14px; }
+        .settings-dialog {
+          width: min(460px, calc(100vw - 24px));
+          max-height: 84dvh;
+          padding: 20px;
+          border-radius: 22px;
+        }
+        .controls { grid-template: repeat(2, 54px) / repeat(3, 64px); }
+      }
+
+      @media (max-width: 380px) {
+        .settings-dialog .settings-grid { grid-template-columns: minmax(0, 1fr); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="console" aria-label="Retro Snake game">
+      <div class="brand"><span>Snake</span><span>NEON ARCADE · DIGITAL EDITION</span></div>
+      <div class="arcade-layout">
+        <section class="game-column" aria-label="Game board and controls">
+          <div class="game-toolbar">
+            <button class="toolbar-button" id="open-settings" type="button" aria-haspopup="dialog" aria-controls="settings-dialog">
+              <span aria-hidden="true">⚙</span> Features
+            </button>
+            <button class="toolbar-button wallet-button" id="open-shop" type="button" aria-haspopup="dialog" aria-controls="shop-dialog">
+              <span class="wallet-icon" aria-hidden="true">✦</span> Shop <span id="coins-top">00</span>
+            </button>
+            <button class="toolbar-button task-button" id="open-tasks" type="button" aria-haspopup="dialog" aria-controls="tasks-dialog">
+              Tasks <span class="task-badge" id="task-badge">0</span>
+            </button>
+          </div>
+          <div class="screen">
+            <canvas id="game" width="400" height="400" aria-label="Snake game board"></canvas>
+          </div>
+          <div class="hud" aria-live="polite">
+            <span>Score <strong id="score">00</strong></span>
+            <span>Best <strong id="best">00</strong></span>
+            <span>Level <strong id="level">1</strong></span>
+            <span>Lives <strong id="lives">—</strong></span>
+            <span>Coins <strong id="coins">00</strong></span>
+            <span>Time <strong id="time-left">—</strong></span>
+          </div>
+          <p class="record-note" id="record-note">Personal record · Endless · Easy: 00</p>
+          <p class="last-run-note" id="last-run-note">Last game · No games played yet</p>
+          <div class="coin-toast" id="coin-toast" role="status" aria-live="polite"><span>✦</span><span id="coin-reward">+1 coin</span></div>
+          <div class="level-progress" role="progressbar" aria-label="Progress to next level" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0">
+            <span id="level-progress"></span>
+          </div>
+          <div class="controls" aria-label="Touch controls">
+            <button class="up" type="button" data-direction="up" aria-label="Move up">↑</button>
+            <button class="left" type="button" data-direction="left" aria-label="Move left">←</button>
+            <button class="down" type="button" data-direction="down" aria-label="Move down">↓</button>
+            <button class="right" type="button" data-direction="right" aria-label="Move right">→</button>
+          </div>
+          <p class="message" id="message">Press start or use an arrow key</p>
+          <div class="actions">
+            <button id="start" type="button">Start game</button>
+            <button id="pause" type="button" disabled>Pause</button>
+          </div>
+          <p class="hint">Arrow keys / WASD or swipe to move · Space to pause</p>
+        </section>
+
+      </div>
+    </main>
+    <dialog class="settings-dialog" id="settings-dialog" aria-labelledby="game-features-title">
+      <div class="dialog-heading">
+        <div><h2 id="game-features-title">Game features</h2><p>Set the pace, pick a board and style your snake.</p></div>
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Close features">×</button>
+      </div>
+      <div class="settings-grid">
+        <label class="setting" for="difficulty">
+          Difficulty
+          <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </label>
+        <label class="setting" for="speed">
+          Starting speed
+          <span class="speed-control">
+            <input id="speed" type="range" min="1" max="10" value="3">
+            <output id="speed-value" for="speed">3</output>
+          </span>
+        </label>
+        <label class="setting" for="board">
+          Board
+          <select id="board">
+            <option value="classic">Classic field</option>
+            <option value="checker">Checkerboard</option>
+            <option value="maze">Maze challenge</option>
+            <option value="night">Midnight</option>
+            <option value="ocean">Ocean</option>
+            <option value="sunset">Sunset</option>
+          </select>
+        </label>
+        <label class="setting" for="goal">
+          Score goal
+          <select id="goal">
+            <option value="0">Endless</option>
+            <option value="10">10 points</option>
+            <option value="20">20 points</option>
+            <option value="30">30 points</option>
+          </select>
+        </label>
+        <label class="setting" for="game-mode">
+          Game mode
+          <select id="game-mode">
+            <option value="classic">Endless</option>
+            <option value="time-attack">Time attack · 60 sec</option>
+          </select>
+        </label>
+        <label class="setting" for="skin">
+          Snake skin
+          <select id="skin">
+            <option value="classic">Classic green</option>
+            <option value="ocean" disabled>Ocean blue · 10 coins</option>
+            <option value="sunset" disabled>Sunset orange · 20 coins</option>
+            <option value="berry" disabled>Berry purple · 30 coins</option>
+          </select>
+        </label>
+        <label class="setting" for="texture">
+          Snake texture
+          <select id="texture">
+            <option value="smooth">Smooth</option>
+            <option value="scales">Scales</option>
+            <option value="stripes">Stripes</option>
+            <option value="pixel">Pixel</option>
+          </select>
+        </label>
+        <label class="setting" for="snake-color-choice">
+          Snake color · shop unlocks
+          <select id="snake-color-choice">
+            <option value="skin">Use selected skin</option>
+          </select>
+        </label>
+        <label class="setting" for="accessory-choice">
+          Snake accessory
+          <select id="accessory-choice">
+            <option value="none">No accessory</option>
+          </select>
+        </label>
+        <label class="life-setting" for="extra-life"><input id="extra-life" type="checkbox"> Extra life</label>
+        <label class="sound-setting" for="sound"><input id="sound" type="checkbox" checked> Sound effects</label>
+        <label class="bonus-setting" for="bonus-food"><input id="bonus-food" type="checkbox"> Bonus food (+5)</label>
+        <label class="option-setting" for="wrap-edges"><input id="wrap-edges" type="checkbox" disabled> Wrap through board edges · 65 coins</label>
+      </div>
+    </dialog>
+
+    <dialog class="settings-dialog" id="shop-dialog" aria-labelledby="shop-title">
+      <div class="dialog-heading">
+        <div><h2 id="shop-title">Snake shop</h2><p>Unlock all 20 colors, glossy skins, accessories and special features with coins you earn offline.</p></div>
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Close shop">×</button>
+      </div>
+      <section class="shop">
+        <div class="shop-list">
+          <div class="shop-item">
+            <span class="shop-item-name">Ocean skin<span class="shop-item-price">10 coins</span></span>
+            <button type="button" data-buy="skin-ocean">Buy</button>
+          </div>
+          <div class="shop-item">
+            <span class="shop-item-name">Sunset skin<span class="shop-item-price">20 coins</span></span>
+            <button type="button" data-buy="skin-sunset">Buy</button>
+          </div>
+          <div class="shop-item">
+            <span class="shop-item-name">Berry skin<span class="shop-item-price">30 coins</span></span>
+            <button type="button" data-buy="skin-berry">Buy</button>
+          </div>
+          <h3>20 fixed color palettes · each unlocked with coins</h3>
+          <div id="color-shop-items"></div>
+          <h3>Snake accessories</h3>
+          <div id="accessory-shop-items"></div>
+          <div class="shop-item">
+            <span class="shop-item-name">Wrap edges<span class="shop-item-price">65 coins</span></span>
+            <button type="button" data-buy="wrap-edges">Buy</button>
+          </div>
+        </div>
+        <p class="shop-status" id="shop-status" aria-live="polite"></p>
+      </section>
+    </dialog>
+
+    <dialog class="settings-dialog" id="tasks-dialog" aria-labelledby="tasks-title">
+      <div class="dialog-heading">
+        <div><h2 id="tasks-title">Daily missions</h2><p>Play, complete a challenge and claim your coins.</p></div>
+        <button class="dialog-close" type="button" data-close-dialog aria-label="Close daily missions">×</button>
+      </div>
+      <div class="task-list" id="task-list"></div>
+      <p class="task-reset-note" id="task-reset-note"></p>
+    </dialog>
+    <script>
+      const canvas = document.querySelector("#game");
+      const context = canvas.getContext("2d");
+      const scoreDisplay = document.querySelector("#score");
+      const bestDisplay = document.querySelector("#best");
+      const coinsDisplay = document.querySelector("#coins");
+      const topCoinsDisplay = document.querySelector("#coins-top");
+      const coinToast = document.querySelector("#coin-toast");
+      const coinReward = document.querySelector("#coin-reward");
+      const levelDisplay = document.querySelector("#level");
+      const levelProgress = document.querySelector("#level-progress");
+      const levelProgressTrack = document.querySelector(".level-progress");
+      const livesDisplay = document.querySelector("#lives");
+      const timeLeftDisplay = document.querySelector("#time-left");
+      const recordNote = document.querySelector("#record-note");
+      const lastRunNote = document.querySelector("#last-run-note");
+      const message = document.querySelector("#message");
+      const startButton = document.querySelector("#start");
+      const pauseButton = document.querySelector("#pause");
+      const difficultySelect = document.querySelector("#difficulty");
+      const speedSlider = document.querySelector("#speed");
+      const speedValue = document.querySelector("#speed-value");
+      const skinSelect = document.querySelector("#skin");
+      const textureSelect = document.querySelector("#texture");
+      const boardSelect = document.querySelector("#board");
+      const goalSelect = document.querySelector("#goal");
+      const gameModeSelect = document.querySelector("#game-mode");
+      const colorChoiceSelect = document.querySelector("#snake-color-choice");
+      const accessorySelect = document.querySelector("#accessory-choice");
+      const colorShopItems = document.querySelector("#color-shop-items");
+      const accessoryShopItems = document.querySelector("#accessory-shop-items");
+      const extraLifeToggle = document.querySelector("#extra-life");
+      const soundToggle = document.querySelector("#sound");
+      const bonusFoodToggle = document.querySelector("#bonus-food");
+      const wrapEdgesToggle = document.querySelector("#wrap-edges");
+      const shopStatus = document.querySelector("#shop-status");
+      const screen = document.querySelector(".screen");
+      const settingsDialog = document.querySelector("#settings-dialog");
+      const shopDialog = document.querySelector("#shop-dialog");
+      const tasksDialog = document.querySelector("#tasks-dialog");
+      const openSettingsButton = document.querySelector("#open-settings");
+      const openShopButton = document.querySelector("#open-shop");
+      const openTasksButton = document.querySelector("#open-tasks");
+      const taskList = document.querySelector("#task-list");
+      const taskBadge = document.querySelector("#task-badge");
+      const taskResetNote = document.querySelector("#task-reset-note");
+      const cellSize = 20;
+      const cellCount = canvas.width / cellSize;
+      const difficultySettings = {
+        easy: { start: 290, increase: 8 },
+        medium: { start: 230, increase: 12 },
+        hard: { start: 175, increase: 16 }
+      };
+      const skins = {
+        classic: { color: "#405a30", head: "#23391e" },
+        ocean: { color: "#327a83", head: "#174b57" },
+        sunset: { color: "#c56d35", head: "#884321" },
+        berry: { color: "#8a568b", head: "#59365e" }
+      };
+      const colorOptions = [
+        { id: "mint", name: "Mint", color: "#55efb0" },
+        { id: "cyan", name: "Neon cyan", color: "#25d9df" },
+        { id: "gold", name: "Royal gold", color: "#ffd166" },
+        { id: "rose", name: "Electric rose", color: "#ff5b9e" },
+        { id: "violet", name: "Violet", color: "#aa7bff" },
+        { id: "coral", name: "Coral", color: "#ff786b" },
+        { id: "ice", name: "Glacier blue", color: "#83d9ff" },
+        { id: "lime", name: "Lime pop", color: "#c5f25b" },
+        { id: "peach", name: "Peach", color: "#ffb27b" },
+        { id: "ruby", name: "Ruby", color: "#ef426f" },
+        { id: "teal", name: "Deep teal", color: "#18b8a5" },
+        { id: "indigo", name: "Indigo", color: "#6574ed" },
+        { id: "pearl", name: "Pearl", color: "#e7e5d3" },
+        { id: "copper", name: "Copper", color: "#d9814d" },
+        { id: "sakura", name: "Sakura", color: "#f38bc3" },
+        { id: "emerald", name: "Emerald", color: "#19a96b" },
+        { id: "sapphire", name: "Sapphire", color: "#3478e5" },
+        { id: "sunflower", name: "Sunflower", color: "#f4c430" },
+        { id: "lavender", name: "Lavender", color: "#bd9bfa" },
+        { id: "obsidian", name: "Obsidian", color: "#6d7182" }
+      ].map((palette, index) => ({
+        ...palette,
+        item: `color-${palette.id}`,
+        cost: 15 + index * 5
+      }));
+      const accessories = [
+        { id: "crown", name: "Royal crown", cost: 55 },
+        { id: "shades", name: "Star shades", cost: 65 },
+        { id: "bandana", name: "Racing bandana", cost: 75 },
+        { id: "halo", name: "Golden halo", cost: 90 }
+      ].map((item) => ({ ...item, item: `accessory-${item.id}` }));
+      const shopCatalog = {
+        "skin-ocean": { cost: 10, name: "Ocean skin", skin: "ocean" },
+        "skin-sunset": { cost: 20, name: "Sunset skin", skin: "sunset" },
+        "skin-berry": { cost: 30, name: "Berry skin", skin: "berry" },
+        ...Object.fromEntries(colorOptions.map((palette) => [
+          palette.item,
+          { cost: palette.cost, name: `${palette.name} color`, color: palette.id }
+        ])),
+        ...Object.fromEntries(accessories.map((item) => [
+          item.item,
+          { cost: item.cost, name: item.name, accessory: item.id }
+        ])),
+        "wrap-edges": { cost: 65, name: "Wrap edges" }
+      };
+      const dailyMissions = [
+        { id: "snacks", title: "Snack time", description: "Eat 10 regular snacks during this mission period.", target: 10, reward: 12 },
+        { id: "levels", title: "Level climber", description: "Reach level 3 in any game during this mission period.", target: 3, reward: 18 },
+        { id: "bonus", title: "Bonus hunter", description: "Collect 2 bonus snacks during this mission period.", target: 2, reward: 15 }
+      ];
+      const boards = {
+        classic: { background: "#c6d69a", grid: "rgba(67, 87, 48, 0.08)", food: "#344b28", text: "#23391e", overlay: "rgba(198, 214, 154, 0.88)", screen: "#c6d69a" },
+        checker: { background: "#d2dfaa", grid: "rgba(67, 87, 48, 0.05)", food: "#344b28", text: "#23391e", overlay: "rgba(210, 223, 170, 0.9)", screen: "#d2dfaa" },
+        maze: { background: "#d6d3a6", grid: "rgba(69, 73, 43, 0.08)", food: "#a03e35", text: "#393c26", overlay: "rgba(214, 211, 166, 0.9)", screen: "#d6d3a6", wall: "#686342", wallEdge: "#4b482f" },
+        night: { background: "#182b36", grid: "rgba(190, 220, 220, 0.12)", food: "#ffc857", text: "#e5f1d0", overlay: "rgba(24, 43, 54, 0.9)", screen: "#182b36" },
+        ocean: { background: "#b8d8d0", grid: "rgba(33, 91, 94, 0.12)", food: "#d85245", text: "#194c50", overlay: "rgba(184, 216, 208, 0.9)", screen: "#b8d8d0" },
+        sunset: { background: "#edc99b", grid: "rgba(115, 67, 42, 0.12)", food: "#8f3e48", text: "#633c2b", overlay: "rgba(237, 201, 155, 0.9)", screen: "#edc99b" }
+      };
+      const mazeWalls = [
+        ...Array.from({ length: 8 }, (_, index) => ({ x: 5, y: index + 1 })),
+        ...Array.from({ length: 8 }, (_, index) => ({ x: 14, y: index + 11 })),
+        ...Array.from({ length: 11 }, (_, index) => ({ x: index + 7, y: 5 })),
+        ...Array.from({ length: 10 }, (_, index) => ({ x: index + 2, y: 14 }))
+      ].filter((wall) =>
+        !(wall.x === 5 && wall.y === 4) &&
+        !(wall.x === 14 && wall.y === 15) &&
+        !(wall.x === 12 && wall.y === 5) &&
+        !(wall.x === 7 && wall.y === 14)
+      );
+
+      let snake;
+      let food;
+      let direction;
+      let nextDirection;
+      let score = 0;
+      let coins = 0;
+      let unlockedItems = new Set();
+      let storageAvailable = true;
+      let best = 0;
+      let personalRecords = {};
+      let timer = null;
+      let countdownTimer = null;
+      let secondsRemaining = 60;
+      let playing = false;
+      let paused = false;
+      let lives = 0;
+      let snakeColors = skins.classic;
+      let audioContext = null;
+      let pointerStart = null;
+      let roundState = "ready";
+      let bonusFood = null;
+      let bonusFoodTimer = null;
+      let pointPowerUp = null;
+      let powerUpSpawnTimer = null;
+      let powerUpExpiryTimer = null;
+      let coinToastTimer = null;
+      let missionState = { resetAt: 0, progress: {}, claimed: [] };
+      let lastRun = null;
+
+      function todayKey() {
+        const now = new Date();
+        return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+      }
+
+      function addShopEntry(container, itemId, name, cost, swatchColor) {
+        const row = document.createElement("div");
+        row.className = "shop-item";
+        const label = document.createElement("span");
+        label.className = "shop-item-name";
+        if (swatchColor) {
+          const swatch = document.createElement("span");
+          swatch.className = "shop-swatch";
+          swatch.style.backgroundColor = swatchColor;
+          label.append(swatch);
+        }
+        const title = document.createElement("span");
+        title.textContent = name;
+        const price = document.createElement("span");
+        price.className = "shop-item-price";
+        price.textContent = `${cost} coins`;
+        label.append(title, price);
+        const button = document.createElement("button");
+        button.type = "button";
+        button.dataset.buy = itemId;
+        button.textContent = "Buy";
+        row.append(label, button);
+        container.append(row);
+      }
+
+      colorOptions.forEach((palette) => {
+        const option = document.createElement("option");
+        option.value = palette.id;
+        option.textContent = `${palette.name} · ${palette.cost} coins`;
+        option.disabled = true;
+        colorChoiceSelect.append(option);
+        addShopEntry(colorShopItems, palette.item, palette.name, palette.cost, palette.color);
+      });
+      accessories.forEach((item) => {
+        const option = document.createElement("option");
+        option.value = item.id;
+        option.textContent = `${item.name} · ${item.cost} coins`;
+        option.disabled = true;
+        accessorySelect.append(option);
+        addShopEntry(accessoryShopItems, item.item, item.name, item.cost);
+      });
+
+      try {
+        best = Number(window.localStorage.getItem("retroSnakeBest")) || 0;
+        const savedRecords = JSON.parse(window.localStorage.getItem("retroSnakeRecords") || "{}");
+        if (savedRecords && typeof savedRecords === "object" && !Array.isArray(savedRecords)) {
+          personalRecords = savedRecords;
+        }
+        const savedLastRun = JSON.parse(window.localStorage.getItem("retroSnakeLastRun") || "null");
+        if (savedLastRun && typeof savedLastRun === "object" && !Array.isArray(savedLastRun)) {
+          lastRun = savedLastRun;
+        }
+        coins = Math.max(0, Number.parseInt(window.localStorage.getItem("retroSnakeCoins"), 10) || 0);
+        const savedUnlocks = JSON.parse(window.localStorage.getItem("retroSnakeUnlocks") || "[]");
+        if (Array.isArray(savedUnlocks)) {
+          unlockedItems = new Set(savedUnlocks.filter((item) => Object.hasOwn(shopCatalog, item)));
+        }
+        const savedSettings = JSON.parse(window.localStorage.getItem("retroSnakeSettings") || "null");
+        if (savedSettings && typeof savedSettings === "object" && !Array.isArray(savedSettings)) {
+          restoreSettings(savedSettings);
+        }
+        const savedMissions = JSON.parse(window.localStorage.getItem("retroSnakeMissions") || "null");
+        if (savedMissions && typeof savedMissions === "object" && !Array.isArray(savedMissions)) {
+          missionState = {
+            resetAt: Number(savedMissions.resetAt) || 0,
+            progress: savedMissions.progress && typeof savedMissions.progress === "object" ? savedMissions.progress : {},
+            claimed: Array.isArray(savedMissions.claimed) ? savedMissions.claimed : []
+          };
+          if (!missionState.resetAt && typeof savedMissions.date === "string" && savedMissions.date === todayKey()) {
+            missionState.resetAt = Date.now() + 24 * 60 * 60 * 1000;
+          }
+        }
+      } catch {
+        storageAvailable = false;
+        message.textContent = "Progress is saved for this visit only.";
+      }
+      bestDisplay.textContent = String(best).padStart(2, "0");
+      coinsDisplay.textContent = String(coins).padStart(2, "0");
+      topCoinsDisplay.textContent = String(coins).padStart(2, "0");
+      updateLastRunNote();
+
+      function playSound(frequency, duration = 0.075) {
+        if (!soundToggle.checked) return;
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        audioContext ??= new AudioContext();
+        if (audioContext.state === "suspended") audioContext.resume();
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        oscillator.frequency.value = frequency;
+        oscillator.type = "square";
+        gain.gain.setValueAtTime(0.035, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + duration);
+      }
+
+      function updateProgress() {
+        const progress = score % 5;
+        levelDisplay.textContent = String(Math.floor(score / 5) + 1);
+        levelProgress.style.width = `${progress * 20}%`;
+        levelProgressTrack.setAttribute("aria-valuenow", String(progress));
+      }
+
+      function restoreSettings(saved) {
+        if (["easy", "medium", "hard"].includes(saved.difficulty)) difficultySelect.value = saved.difficulty;
+        if (["classic", "time-attack"].includes(saved.mode)) gameModeSelect.value = saved.mode;
+        if (["classic", "checker", "maze", "night", "ocean", "sunset"].includes(saved.board)) boardSelect.value = saved.board;
+        if (["0", "10", "20", "30"].includes(String(saved.goal))) goalSelect.value = String(saved.goal);
+        if (Number.isFinite(Number(saved.speed))) {
+          speedSlider.value = String(Math.max(1, Math.min(10, Number(saved.speed))));
+          speedValue.value = speedSlider.value;
+        }
+        if (["classic", "ocean", "sunset", "berry"].includes(saved.skin)) skinSelect.value = saved.skin;
+        if (["smooth", "scales", "stripes", "pixel"].includes(saved.texture)) textureSelect.value = saved.texture;
+        if (colorOptions.some((palette) => palette.id === saved.colorChoice)) colorChoiceSelect.value = saved.colorChoice;
+        if (accessories.some((item) => item.id === saved.accessory)) accessorySelect.value = saved.accessory;
+        extraLifeToggle.checked = Boolean(saved.extraLife);
+        soundToggle.checked = saved.sound !== false;
+        bonusFoodToggle.checked = Boolean(saved.bonusFood);
+        wrapEdgesToggle.checked = Boolean(saved.wrapEdges) && unlockedItems.has("wrap-edges");
+      }
+
+      function saveSettings() {
+        if (!storageAvailable) return;
+        try {
+          window.localStorage.setItem("retroSnakeSettings", JSON.stringify({
+            difficulty: difficultySelect.value,
+            mode: gameModeSelect.value,
+            board: boardSelect.value,
+            goal: goalSelect.value,
+            speed: speedSlider.value,
+            skin: skinSelect.value,
+            texture: textureSelect.value,
+            colorChoice: colorChoiceSelect.value,
+            accessory: accessorySelect.value,
+            extraLife: extraLifeToggle.checked,
+            sound: soundToggle.checked,
+            bonusFood: bonusFoodToggle.checked,
+            wrapEdges: wrapEdgesToggle.checked
+          }));
+        } catch {
+          storageAvailable = false;
+          shopStatus.textContent = "Progress is saved for this visit only.";
+        }
+      }
+
+      function currentBoard() {
+        return boards[boardSelect.value] || boards.classic;
+      }
+
+      function isWall(x, y) {
+        return boardSelect.value === "maze" && mazeWalls.some((wall) => wall.x === x && wall.y === y);
+      }
+
+      function playableCellCount() {
+        return cellCount * cellCount - (boardSelect.value === "maze" ? mazeWalls.length : 0);
+      }
+
+      function saveProgress() {
+        if (!storageAvailable) return;
+        try {
+          window.localStorage.setItem("retroSnakeBest", String(best));
+          window.localStorage.setItem("retroSnakeCoins", String(coins));
+          window.localStorage.setItem("retroSnakeUnlocks", JSON.stringify([...unlockedItems]));
+          window.localStorage.setItem("retroSnakeMissions", JSON.stringify(missionState));
+          window.localStorage.setItem("retroSnakeRecords", JSON.stringify(personalRecords));
+          if (lastRun) window.localStorage.setItem("retroSnakeLastRun", JSON.stringify(lastRun));
+        } catch {
+          storageAvailable = false;
+          shopStatus.textContent = "Progress is saved for this visit only.";
+        }
+      }
+
+      function recordKey() {
+        return `${gameModeSelect.value}-${difficultySelect.value}`;
+      }
+
+      function updateRecordNote() {
+        const modeName = gameModeSelect.value === "time-attack" ? "Time attack" : "Endless";
+        const record = Math.max(0, Number(personalRecords[recordKey()]) || 0);
+        recordNote.textContent = `Personal record · ${modeName} · ${difficultySelect.value[0].toUpperCase()}${difficultySelect.value.slice(1)}: ${String(record).padStart(2, "0")}`;
+      }
+
+      function updateLastRunNote() {
+        if (!lastRun) {
+          lastRunNote.textContent = "Last game · No games played yet";
+          return;
+        }
+        const modeName = lastRun.mode === "time-attack" ? "Time attack" : "Endless";
+        const result = lastRun.result === "time-up" ? "time up" : lastRun.result === "won" ? "won" : "game over";
+        lastRunNote.textContent = `Last game · ${modeName} · ${lastRun.difficulty} · ${lastRun.score} points · ${result}`;
+      }
+
+      function updateCountdown() {
+        timeLeftDisplay.textContent = gameModeSelect.value === "time-attack"
+          ? `0:${String(secondsRemaining).padStart(2, "0")}`
+          : "—";
+      }
+
+      function startCountdown() {
+        if (gameModeSelect.value !== "time-attack") return;
+        window.clearInterval(countdownTimer);
+        countdownTimer = window.setInterval(() => {
+          if (!playing || paused) return;
+          secondsRemaining = Math.max(0, secondsRemaining - 1);
+          updateCountdown();
+          if (secondsRemaining === 0) {
+            endGame("time");
+          }
+        }, 1000);
+      }
+
+      function refreshShop() {
+        document.querySelectorAll("[data-buy]").forEach((button) => {
+          const itemId = button.dataset.buy;
+          const item = shopCatalog[itemId];
+          const owned = unlockedItems.has(itemId);
+          button.disabled = playing || owned || coins < item.cost;
+          button.textContent = owned ? "Owned" : coins < item.cost ? `${item.cost} coins` : "Buy";
+          button.setAttribute("aria-label", owned
+            ? `${item.name} owned`
+            : `Buy ${item.name} for ${item.cost} coins`);
+        });
+        for (const [skin, itemId] of [["ocean", "skin-ocean"], ["sunset", "skin-sunset"], ["berry", "skin-berry"]]) {
+          skinSelect.querySelector(`option[value="${skin}"]`).disabled = !unlockedItems.has(itemId);
+        }
+        for (const palette of colorOptions) {
+          colorChoiceSelect.querySelector(`option[value="${palette.id}"]`).disabled = !unlockedItems.has(palette.item);
+        }
+        for (const accessory of accessories) {
+          accessorySelect.querySelector(`option[value="${accessory.id}"]`).disabled = !unlockedItems.has(accessory.item);
+        }
+        accessorySelect.disabled = playing;
+        wrapEdgesToggle.disabled = playing || !unlockedItems.has("wrap-edges");
+      }
+
+      function addCoins(amount, reason) {
+        if (amount <= 0) return;
+        coins += amount;
+        const balance = String(coins).padStart(2, "0");
+        coinsDisplay.textContent = balance;
+        topCoinsDisplay.textContent = balance;
+        coinReward.textContent = `+${amount} ${amount === 1 ? "coin" : "coins"}${reason ? ` · ${reason}` : ""}`;
+        coinToast.classList.remove("is-visible");
+        window.clearTimeout(coinToastTimer);
+        window.requestAnimationFrame(() => coinToast.classList.add("is-visible"));
+        coinToastTimer = window.setTimeout(() => coinToast.classList.remove("is-visible"), 1800);
+        shopStatus.textContent = `${coins} coins available`;
+        saveProgress();
+        refreshShop();
+      }
+
+      function refreshDailyMissions() {
+        if (!missionState.resetAt || Date.now() >= missionState.resetAt) {
+          missionState = { resetAt: Date.now() + 24 * 60 * 60 * 1000, progress: {}, claimed: [] };
+          saveProgress();
+        }
+
+        taskList.replaceChildren();
+        let claimableCount = 0;
+        dailyMissions.forEach((mission) => {
+          const progress = Math.min(mission.target, Math.max(0, Number(missionState.progress[mission.id]) || 0));
+          const claimed = missionState.claimed.includes(mission.id);
+          const complete = progress >= mission.target;
+          if (complete && !claimed) claimableCount += 1;
+
+          const card = document.createElement("article");
+          card.className = "task-card";
+          const header = document.createElement("div");
+          header.className = "task-card-header";
+          const titleGroup = document.createElement("div");
+          const title = document.createElement("h3");
+          title.textContent = mission.title;
+          const description = document.createElement("p");
+          description.textContent = mission.description;
+          titleGroup.append(title, description);
+          const reward = document.createElement("p");
+          reward.className = "task-reward";
+          reward.textContent = `✦ ${mission.reward} coins`;
+          header.append(titleGroup, reward);
+
+          const track = document.createElement("div");
+          track.className = "task-progress-track";
+          track.setAttribute("role", "progressbar");
+          track.setAttribute("aria-label", `${mission.title} progress`);
+          track.setAttribute("aria-valuemin", "0");
+          track.setAttribute("aria-valuemax", String(mission.target));
+          track.setAttribute("aria-valuenow", String(progress));
+          const fill = document.createElement("span");
+          fill.style.width = `${progress / mission.target * 100}%`;
+          track.append(fill);
+
+          const footer = document.createElement("div");
+          footer.className = "task-card-footer";
+          const count = document.createElement("p");
+          count.className = "task-count";
+          count.textContent = claimed ? "Reward collected" : `${progress} / ${mission.target} complete`;
+          const claim = document.createElement("button");
+          claim.className = "task-claim";
+          claim.type = "button";
+          claim.textContent = claimed ? "Claimed" : complete ? "Claim reward" : "In progress";
+          claim.disabled = !complete || claimed;
+          claim.addEventListener("click", () => claimMission(mission.id));
+          footer.append(count, claim);
+          card.append(header, track, footer);
+          taskList.append(card);
+        });
+
+        taskBadge.textContent = String(claimableCount);
+        taskBadge.setAttribute("aria-label", `${claimableCount} rewards ready to claim`);
+        const hoursRemaining = Math.ceil((missionState.resetAt - Date.now()) / (60 * 60 * 1000));
+        taskResetNote.textContent = `Missions refresh in about ${hoursRemaining} hour${hoursRemaining === 1 ? "" : "s"} · progress saves on this device`;
+      }
+
+      function updateMissionProgress(missionId, value) {
+        const mission = dailyMissions.find((item) => item.id === missionId);
+        if (!mission || missionState.claimed.includes(missionId)) return;
+        const previous = Math.max(0, Number(missionState.progress[missionId]) || 0);
+        const progress = Math.min(mission.target, Math.max(previous, value));
+        if (progress === previous) return;
+        missionState.progress[missionId] = progress;
+        saveProgress();
+        refreshDailyMissions();
+      }
+
+      function claimMission(missionId) {
+        refreshDailyMissions();
+        const mission = dailyMissions.find((item) => item.id === missionId);
+        if (!mission || missionState.claimed.includes(missionId)) return;
+        const progress = Math.max(0, Number(missionState.progress[missionId]) || 0);
+        if (progress < mission.target) return;
+        missionState.claimed.push(missionId);
+        addCoins(mission.reward, `${mission.title} reward`);
+        refreshDailyMissions();
+      }
+
+      function buyItem(itemId) {
+        const item = shopCatalog[itemId];
+        if (!item || playing || unlockedItems.has(itemId) || coins < item.cost) return;
+        coins -= item.cost;
+        unlockedItems.add(itemId);
+        if (item.skin) {
+          skinSelect.value = item.skin;
+          colorChoiceSelect.value = "skin";
+          applySkin();
+        }
+        if (item.color) {
+          colorChoiceSelect.value = item.color;
+          applySkin();
+        }
+        if (item.accessory) {
+          accessorySelect.value = item.accessory;
+          applySkin();
+        }
+        if (itemId === "wrap-edges") wrapEdgesToggle.checked = true;
+        coinsDisplay.textContent = String(coins).padStart(2, "0");
+        topCoinsDisplay.textContent = String(coins).padStart(2, "0");
+        shopStatus.textContent = "Unlocked! Ready to use.";
+        saveSettings();
+        saveProgress();
+        refreshShop();
+      }
+
+      function setRoundSettingsDisabled(disabled) {
+        difficultySelect.disabled = disabled;
+        speedSlider.disabled = disabled;
+        extraLifeToggle.disabled = disabled;
+        bonusFoodToggle.disabled = disabled;
+        skinSelect.disabled = disabled;
+        textureSelect.disabled = disabled;
+        colorChoiceSelect.disabled = disabled;
+        accessorySelect.disabled = disabled;
+        boardSelect.disabled = disabled;
+        goalSelect.disabled = disabled;
+        gameModeSelect.disabled = disabled;
+        refreshShop();
+      }
+
+      function applySkin() {
+        if (skinSelect.value !== "classic" && !unlockedItems.has(`skin-${skinSelect.value}`)) {
+          skinSelect.value = "classic";
+        }
+        const palette = colorOptions.find((item) => item.id === colorChoiceSelect.value);
+        if (palette && !unlockedItems.has(palette.item)) colorChoiceSelect.value = "skin";
+        const accessory = accessories.find((item) => item.id === accessorySelect.value);
+        if (accessory && !unlockedItems.has(accessory.item)) accessorySelect.value = "none";
+        const selectedSkin = skins[skinSelect.value];
+        snakeColors = palette && colorChoiceSelect.value !== "skin"
+          ? { color: palette.color, head: shadeColor(palette.color, -40) }
+          : selectedSkin || skins.classic;
+        refreshShop();
+        draw();
+      }
+
+      function shadeColor(hex, amount) {
+        const value = Number.parseInt(hex.slice(1), 16);
+        const channels = [16, 8, 0].map((shift) => {
+          const channel = (value >> shift) & 255;
+          return Math.max(0, Math.min(255, channel + amount));
+        });
+        return `#${channels.map((channel) => channel.toString(16).padStart(2, "0")).join("")}`;
+      }
+
+      function currentTickLength() {
+        const settings = difficultySettings[difficultySelect.value];
+        const adjustment = (5 - Number(speedSlider.value)) * 18;
+        return Math.max(75, settings.start + adjustment - Math.floor(score / 5) * settings.increase);
+      }
+
+      function scheduleTick() {
+        timer = window.setTimeout(() => {
+          timer = null;
+          tick();
+          if (playing && !paused) scheduleTick();
+        }, currentTickLength());
+      }
+
+      function drawBoard() {
+        const board = currentBoard();
+        context.fillStyle = board.background;
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        if (boardSelect.value === "checker") {
+          for (let y = 0; y < cellCount; y += 1) {
+            for (let x = 0; x < cellCount; x += 1) {
+              if ((x + y) % 2 === 0) {
+                context.fillStyle = "rgba(67, 87, 48, 0.09)";
+                context.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+              }
+            }
+          }
+        } else {
+          context.strokeStyle = board.grid;
+          context.lineWidth = 1;
+          for (let line = cellSize; line < canvas.width; line += cellSize) {
+            context.beginPath();
+            context.moveTo(line + 0.5, 0);
+            context.lineTo(line + 0.5, canvas.height);
+            context.stroke();
+            context.beginPath();
+            context.moveTo(0, line + 0.5);
+            context.lineTo(canvas.width, line + 0.5);
+            context.stroke();
+          }
+        }
+        if (boardSelect.value === "maze") {
+          mazeWalls.forEach((wall) => {
+            context.fillStyle = board.wall;
+            context.fillRect(wall.x * cellSize + 1, wall.y * cellSize + 1, cellSize - 2, cellSize - 2);
+            context.fillStyle = board.wallEdge;
+            context.fillRect(wall.x * cellSize + 2, wall.y * cellSize + 2, cellSize - 4, 3);
+          });
+        }
+        screen.style.backgroundColor = board.screen;
+      }
+
+      function drawSnakeSegment(segment, index) {
+        const inset = index === 0 ? 2 : 3;
+        const x = segment.x * cellSize + inset;
+        const y = segment.y * cellSize + inset;
+        const size = cellSize - inset * 2;
+        const baseColor = index === 0 ? snakeColors.head : snakeColors.color;
+        const bodyGradient = context.createLinearGradient(x, y, x + size, y + size);
+        bodyGradient.addColorStop(0, shadeColor(baseColor, 42));
+        bodyGradient.addColorStop(.42, baseColor);
+        bodyGradient.addColorStop(1, shadeColor(baseColor, -48));
+        context.save();
+        context.shadowColor = "rgba(0, 0, 0, .35)";
+        context.shadowBlur = 4;
+        context.shadowOffsetX = 1;
+        context.shadowOffsetY = 2;
+        context.fillStyle = bodyGradient;
+        context.beginPath();
+        context.moveTo(x + 4, y);
+        context.lineTo(x + size - 4, y);
+        context.arcTo(x + size, y, x + size, y + 4, 4);
+        context.lineTo(x + size, y + size - 4);
+        context.arcTo(x + size, y + size, x + size - 4, y + size, 4);
+        context.lineTo(x + 4, y + size);
+        context.arcTo(x, y + size, x, y + size - 4, 4);
+        context.lineTo(x, y + 4);
+        context.arcTo(x, y, x + 4, y, 4);
+        context.closePath();
+        context.fill();
+        context.restore();
+
+        context.fillStyle = "rgba(255, 255, 255, .22)";
+        context.fillRect(x + 3, y + 2, Math.max(2, size - 7), 2);
+
+        if (textureSelect.value !== "smooth" && size >= 10) {
+          context.save();
+          context.beginPath();
+          context.rect(x, y, size, size);
+          context.clip();
+          if (textureSelect.value === "stripes") {
+            context.fillStyle = shadeColor(baseColor, 30);
+            for (let stripe = -size; stripe < size * 2; stripe += 7) {
+              context.fillRect(x + stripe, y, 3, size);
+            }
+          } else if (textureSelect.value === "pixel") {
+            context.fillStyle = shadeColor(baseColor, 28);
+            context.fillRect(x + 2, y + 2, 5, 5);
+            context.fillRect(x + size - 7, y + size - 7, 5, 5);
+            context.fillStyle = shadeColor(baseColor, -22);
+            context.fillRect(x + size - 7, y + 2, 5, 5);
+            context.fillRect(x + 2, y + size - 7, 5, 5);
+          } else if (textureSelect.value === "scales") {
+            context.fillStyle = shadeColor(baseColor, 25);
+            for (const [scaleX, scaleY] of [[5, 5], [11, 5], [8, 11]]) {
+              context.beginPath();
+              context.arc(x + scaleX, y + scaleY, 2.5, 0, Math.PI);
+              context.fill();
+            }
+          }
+          context.restore();
+        }
+
+        if (index === 0) {
+          const eyes = direction.x === 1 ? [[x + size - 4, y + 4], [x + size - 4, y + size - 4]]
+            : direction.x === -1 ? [[x + 4, y + 4], [x + 4, y + size - 4]]
+              : direction.y === 1 ? [[x + 4, y + size - 4], [x + size - 4, y + size - 4]]
+                : [[x + 4, y + 4], [x + size - 4, y + 4]];
+          context.fillStyle = currentBoard().text;
+          eyes.forEach(([eyeX, eyeY]) => {
+            context.fillStyle = "rgba(255, 255, 255, .95)";
+            context.beginPath();
+            context.arc(eyeX, eyeY, 2.2, 0, Math.PI * 2);
+            context.fill();
+            context.fillStyle = "#17202a";
+            context.beginPath();
+            context.arc(eyeX + direction.x * .7, eyeY + direction.y * .7, 1, 0, Math.PI * 2);
+            context.fill();
+          });
+          drawSnakeAccessory(x, y, size);
+        }
+      }
+
+      function drawSnakeAccessory(x, y, size) {
+        const centerX = x + size / 2;
+        if (accessorySelect.value === "crown") {
+          context.fillStyle = "#f4c542";
+          context.strokeStyle = "#9c641a";
+          context.lineWidth = 1;
+          context.beginPath();
+          context.moveTo(centerX - 6, y + 5);
+          context.lineTo(centerX - 5, y + 1);
+          context.lineTo(centerX - 2, y + 4);
+          context.lineTo(centerX, y);
+          context.lineTo(centerX + 2, y + 4);
+          context.lineTo(centerX + 5, y + 1);
+          context.lineTo(centerX + 6, y + 5);
+          context.closePath();
+          context.fill();
+          context.stroke();
+        } else if (accessorySelect.value === "shades") {
+          context.fillStyle = "#131a2d";
+          context.fillRect(x + 2, y + 7, size - 4, 4);
+          context.fillStyle = "rgba(126, 223, 255, .85)";
+          context.fillRect(x + 4, y + 8, 4, 1);
+          context.fillRect(x + size - 8, y + 8, 4, 1);
+        } else if (accessorySelect.value === "bandana") {
+          context.fillStyle = "#d84358";
+          context.fillRect(x + 1, y + size - 6, size - 2, 4);
+          context.fillStyle = "#fff0d4";
+          context.fillRect(centerX - 1, y + size - 5, 2, 2);
+        } else if (accessorySelect.value === "halo") {
+          context.strokeStyle = "#ffd166";
+          context.lineWidth = 2;
+          context.beginPath();
+          context.ellipse(centerX, y + 2, 5, 2, 0, 0, Math.PI * 2);
+          context.stroke();
+          context.fillStyle = "rgba(255, 220, 105, .2)";
+          context.beginPath();
+          context.ellipse(centerX, y + 2, 7, 4, 0, 0, Math.PI * 2);
+          context.fill();
+        }
+      }
+
+      function drawFruit(position, bonus = false) {
+        if (!position) return;
+        const centerX = position.x * cellSize + cellSize / 2;
+        const centerY = position.y * cellSize + cellSize / 2 + 1;
+        const fruitColor = bonus ? "#f5b52e" : "#df4b42";
+        const gradient = context.createRadialGradient(centerX - 3, centerY - 4, 1, centerX, centerY, 8);
+        gradient.addColorStop(0, "#fff5d6");
+        gradient.addColorStop(.24, shadeColor(fruitColor, 48));
+        gradient.addColorStop(.72, fruitColor);
+        gradient.addColorStop(1, shadeColor(fruitColor, -70));
+        context.save();
+        context.shadowColor = "rgba(34, 20, 12, .4)";
+        context.shadowBlur = 5;
+        context.shadowOffsetY = 2;
+        context.fillStyle = gradient;
+        context.beginPath();
+        context.arc(centerX, centerY, 7.5, 0, Math.PI * 2);
+        context.fill();
+        context.restore();
+        context.strokeStyle = "#604629";
+        context.lineWidth = 1.6;
+        context.beginPath();
+        context.moveTo(centerX, centerY - 6);
+        context.lineTo(centerX + 1, centerY - 10);
+        context.stroke();
+        context.fillStyle = bonus ? "#d7f06a" : "#73b84a";
+        context.beginPath();
+        context.ellipse(centerX + 4, centerY - 8, 3, 1.5, -.5, 0, Math.PI * 2);
+        context.fill();
+        context.fillStyle = "rgba(255,255,255,.62)";
+        context.beginPath();
+        context.ellipse(centerX - 3, centerY - 3, 1.5, 2.5, -.5, 0, Math.PI * 2);
+        context.fill();
+      }
+
+      function drawPointPowerUp() {
+        if (!pointPowerUp) return;
+        const centerX = pointPowerUp.x * cellSize + cellSize / 2;
+        const centerY = pointPowerUp.y * cellSize + cellSize / 2;
+        const secondsLeft = Math.max(0, (pointPowerUp.expiresAt - Date.now()) / 2500);
+        const gradient = context.createRadialGradient(centerX - 2, centerY - 3, 1, centerX, centerY, 8);
+        gradient.addColorStop(0, "#ffffff");
+        gradient.addColorStop(.3, "#a9f6ff");
+        gradient.addColorStop(1, "#347ce5");
+        context.save();
+        context.shadowColor = "#6be9ff";
+        context.shadowBlur = 12;
+        context.fillStyle = gradient;
+        context.beginPath();
+        for (let point = 0; point < 10; point += 1) {
+          const angle = -Math.PI / 2 + point * Math.PI / 5;
+          const radius = point % 2 === 0 ? 8 : 3.5;
+          const x = centerX + Math.cos(angle) * radius;
+          const y = centerY + Math.sin(angle) * radius;
+          if (point === 0) context.moveTo(x, y);
+          else context.lineTo(x, y);
+        }
+        context.closePath();
+        context.fill();
+        context.restore();
+        context.strokeStyle = "#ffffff";
+        context.lineWidth = 2;
+        context.beginPath();
+        context.arc(centerX, centerY, 10, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * secondsLeft);
+        context.stroke();
+        context.fillStyle = "#173b73";
+        context.font = "bold 8px sans-serif";
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.fillText("+5", centerX, centerY + .5);
+      }
+
+      function draw() {
+        drawBoard();
+        if (!snake) {
+          drawOverlay("SNAKE", "Press start to play");
+          return;
+        }
+        drawFruit(food);
+        if (bonusFood) drawFruit(bonusFood, true);
+        drawPointPowerUp();
+        snake.forEach(drawSnakeSegment);
+        if (paused || !playing) {
+          const title = paused ? "PAUSED" : roundState === "won" ? "YOU WIN!" : roundState === "time-up" ? "TIME!" : "GAME OVER";
+          const subtitle = paused ? "Press space to resume" : roundState === "time-up" ? `Score: ${score} · Press start to play again` : "Press start to play again";
+          drawOverlay(title, subtitle);
+        }
+      }
+
+      function drawOverlay(title, subtitle) {
+        context.fillStyle = currentBoard().overlay;
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.textAlign = "center";
+        context.fillStyle = currentBoard().text;
+        context.font = "bold 28px 'Courier New', monospace";
+        context.fillText(title, canvas.width / 2, canvas.height / 2 - 8);
+        context.fillStyle = currentBoard().text;
+        context.font = "12px 'Courier New', monospace";
+        context.fillText(subtitle, canvas.width / 2, canvas.height / 2 + 20);
+      }
+
+      function findEmptyCell(extraOccupied = []) {
+        const totalCells = cellCount * cellCount;
+        const start = Math.floor(Math.random() * totalCells);
+        for (let offset = 0; offset < totalCells; offset += 1) {
+          const index = (start + offset) % totalCells;
+          const candidate = { x: index % cellCount, y: Math.floor(index / cellCount) };
+          if (
+            !snake.some((segment) => segment.x === candidate.x && segment.y === candidate.y) &&
+            !isWall(candidate.x, candidate.y) &&
+            !(food && food.x === candidate.x && food.y === candidate.y) &&
+            !(bonusFood && bonusFood.x === candidate.x && bonusFood.y === candidate.y) &&
+            !(pointPowerUp && pointPowerUp.x === candidate.x && pointPowerUp.y === candidate.y) &&
+            !extraOccupied.some((cell) => cell.x === candidate.x && cell.y === candidate.y)
+          ) return candidate;
+        }
+        return null;
+      }
+
+      function placeFood() {
+        food = findEmptyCell();
+      }
+
+      function placeBonusFood() {
+        if (!bonusFoodToggle.checked || !playing) return;
+        const candidate = findEmptyCell();
+        if (!candidate) return;
+        bonusFood = candidate;
+        window.clearTimeout(bonusFoodTimer);
+        bonusFoodTimer = window.setTimeout(() => {
+          bonusFood = null;
+          draw();
+        }, 5000);
+      }
+
+      function expirePointPowerUp() {
+        pointPowerUp = null;
+        powerUpExpiryTimer = null;
+        if (playing && !paused) message.textContent = "Power-up expired · another may appear soon.";
+        draw();
+      }
+
+      function startPointPowerUpExpiry() {
+        window.clearTimeout(powerUpExpiryTimer);
+        if (!pointPowerUp || !playing || paused) return;
+        pointPowerUp.expiresAt = Date.now() + pointPowerUp.remainingMs;
+        powerUpExpiryTimer = window.setTimeout(expirePointPowerUp, pointPowerUp.remainingMs);
+      }
+
+      function spawnPointPowerUp() {
+        if (!playing || paused || pointPowerUp) return;
+        const position = findEmptyCell();
+        if (!position) return;
+        pointPowerUp = { ...position, remainingMs: 2500, expiresAt: 0 };
+        startPointPowerUpExpiry();
+        message.textContent = "Point power-up! Grab the star for +5 points before it vanishes!";
+        playSound(980, 0.1);
+        draw();
+      }
+
+      function startGame() {
+        saveSettings();
+        window.clearInterval(timer);
+        window.clearTimeout(timer);
+        window.clearInterval(countdownTimer);
+        window.clearTimeout(bonusFoodTimer);
+        window.clearInterval(powerUpSpawnTimer);
+        window.clearTimeout(powerUpExpiryTimer);
+        bonusFood = null;
+        pointPowerUp = null;
+        score = 0;
+        secondsRemaining = 60;
+        snake = [
+          { x: 9, y: 10 }, { x: 8, y: 10 }, { x: 7, y: 10 }, { x: 6, y: 10 }
+        ];
+        direction = { x: 1, y: 0 };
+        nextDirection = direction;
+        playing = true;
+        paused = false;
+        roundState = "playing";
+        lives = extraLifeToggle.checked ? 1 : 0;
+        scoreDisplay.textContent = "00";
+        updateProgress();
+        livesDisplay.textContent = String(lives);
+        updateCountdown();
+        updateRecordNote();
+        const goal = Number(goalSelect.value);
+        message.textContent = gameModeSelect.value === "time-attack"
+          ? "Time attack · score as much as you can in 60 seconds!"
+          : goal
+          ? `${difficultySelect.value[0].toUpperCase()}${difficultySelect.value.slice(1)} mode · reach ${goal} points to win`
+          : `${difficultySelect.value[0].toUpperCase()}${difficultySelect.value.slice(1)} mode · endless run`;
+        startButton.textContent = "Restart";
+        pauseButton.disabled = false;
+        pauseButton.textContent = "Pause";
+        setRoundSettingsDisabled(true);
+        placeFood();
+        draw();
+        scheduleTick();
+        startCountdown();
+        powerUpSpawnTimer = window.setInterval(spawnPointPowerUp, 9000);
+      }
+
+      function endGame(reason = "collision") {
+        window.clearTimeout(timer);
+        window.clearInterval(timer);
+        window.clearInterval(countdownTimer);
+        window.clearTimeout(bonusFoodTimer);
+        window.clearInterval(powerUpSpawnTimer);
+        window.clearTimeout(powerUpExpiryTimer);
+        bonusFood = null;
+        pointPowerUp = null;
+        timer = null;
+        playing = false;
+        paused = false;
+        pauseButton.disabled = true;
+        setRoundSettingsDisabled(false);
+        roundState = reason === "time" ? "time-up" : reason === "won" ? "won" : "over";
+        const key = recordKey();
+        const previousRecord = Math.max(0, Number(personalRecords[key]) || 0);
+        if (score > previousRecord) {
+          personalRecords[key] = score;
+          updateRecordNote();
+          message.textContent = reason === "time"
+            ? `Time! New ${difficultySelect.value} record: ${score} points!`
+            : `New ${difficultySelect.value} record: ${score} points!`;
+        } else {
+          message.textContent = reason === "time"
+            ? `Time's up! You scored ${score} points.`
+            : "Game over! Press restart to play again.";
+        }
+        lastRun = {
+          mode: gameModeSelect.value,
+          difficulty: difficultySelect.value,
+          score,
+          result: roundState,
+          playedAt: Date.now()
+        };
+        updateLastRunNote();
+        saveProgress();
+        draw();
+      }
+
+      function useExtraLife() {
+        lives -= 1;
+        livesDisplay.textContent = String(lives);
+        snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
+        direction = { x: 1, y: 0 };
+        nextDirection = direction;
+        if (snake.some((segment) => segment.x === food.x && segment.y === food.y)) placeFood();
+        message.textContent = "Extra life! Back in the game.";
+        draw();
+      }
+
+      function tick() {
+        direction = nextDirection;
+        const head = {
+          x: snake[0].x + direction.x,
+          y: snake[0].y + direction.y
+        };
+        if (wrapEdgesToggle.checked) {
+          head.x = (head.x + cellCount) % cellCount;
+          head.y = (head.y + cellCount) % cellCount;
+        }
+        const eating = head.x === food.x && head.y === food.y;
+        const eatingBonus = bonusFood && head.x === bonusFood.x && head.y === bonusFood.y;
+        const eatingPowerUp = pointPowerUp && head.x === pointPowerUp.x && head.y === pointPowerUp.y;
+        const bodyToCheck = eating || eatingBonus || eatingPowerUp ? snake : snake.slice(0, -1);
+        if (
+          (!wrapEdgesToggle.checked && (
+            head.x < 0 || head.x >= cellCount ||
+            head.y < 0 || head.y >= cellCount
+          )) ||
+          isWall(head.x, head.y) ||
+          bodyToCheck.some((segment) => segment.x === head.x && segment.y === head.y)
+        ) {
+          if (lives > 0) {
+            playSound(220);
+            useExtraLife();
+          } else {
+            playSound(130, 0.2);
+            endGame();
+          }
+          return;
+        }
+
+        snake.unshift(head);
+        if (eating || eatingBonus || eatingPowerUp) {
+          const previousLevel = Math.floor(score / 5) + 1;
+          score += eatingBonus || eatingPowerUp ? 5 : 1;
+          if (eatingBonus) updateMissionProgress("bonus", (Number(missionState.progress.bonus) || 0) + 1);
+          else if (!eatingPowerUp) updateMissionProgress("snacks", (Number(missionState.progress.snacks) || 0) + 1);
+          const currentLevel = Math.floor(score / 5) + 1;
+          updateMissionProgress("levels", currentLevel);
+          const coinRewardAmount = (eatingBonus || eatingPowerUp ? 5 : 1) + Math.max(0, currentLevel - previousLevel) * 5;
+          const coinRewardReason = [
+            eatingPowerUp ? "point power-up" : eatingBonus ? "bonus snack" : "snack",
+            ...(currentLevel > previousLevel ? [`level ${currentLevel} reward`] : [])
+          ].join(" + ");
+          addCoins(coinRewardAmount, coinRewardReason);
+          if (eatingBonus) {
+            bonusFood = null;
+            window.clearTimeout(bonusFoodTimer);
+            message.textContent = "Bonus! +5 points!";
+            playSound(880, 0.12);
+          }
+          if (eatingPowerUp) {
+            pointPowerUp = null;
+            window.clearTimeout(powerUpExpiryTimer);
+            powerUpExpiryTimer = null;
+            message.textContent = "Power-up collected! +5 points!";
+            playSound(1040, 0.14);
+          }
+          scoreDisplay.textContent = String(score).padStart(2, "0");
+          if (score > best) {
+            best = score;
+            bestDisplay.textContent = String(best).padStart(2, "0");
+            saveProgress();
+          }
+          const goal = Number(goalSelect.value);
+          if (goal > 0 && score >= goal) {
+            endGame("won");
+            message.textContent = `Goal reached! You scored ${score} points.`;
+            playSound(880, 0.18);
+            draw();
+            return;
+          }
+          if (snake.length >= playableCellCount()) {
+            endGame("won");
+            message.textContent = "You filled the board! Amazing!";
+            draw();
+            return;
+          }
+          playSound(660 + Math.min(Math.floor(score / 5), 8) * 35);
+          updateProgress();
+          if (currentLevel > previousLevel) {
+            message.textContent = eatingPowerUp
+              ? `Power-up +5! Level ${currentLevel} · your snake speeds up!`
+              : `Level ${currentLevel}! Your snake speeds up!`;
+          }
+          if (eating) placeFood();
+          if (bonusFoodToggle.checked && !bonusFood && Math.random() < 0.3) placeBonusFood();
+        } else {
+          snake.pop();
+        }
+        draw();
+      }
+
+      function handleVisibilityChange() {
+        refreshDailyMissions();
+        if (document.hidden && playing && !paused) {
+          togglePause();
+          message.textContent = "Auto-paused while away · press resume to continue";
+        }
+      }
+
+      function changeDirection(name) {
+        if (!playing) startGame();
+        if (paused) return;
+        const moves = {
+          up: { x: 0, y: -1 },
+          down: { x: 0, y: 1 },
+          left: { x: -1, y: 0 },
+          right: { x: 1, y: 0 }
+        };
+        const requested = moves[name];
+        if (requested.x + nextDirection.x === 0 && requested.y + nextDirection.y === 0) return;
+        nextDirection = requested;
+      }
+
+      function togglePause() {
+        if (!playing) return;
+        paused = !paused;
+        if (paused) {
+          window.clearTimeout(timer);
+          window.clearInterval(countdownTimer);
+          if (pointPowerUp) {
+            pointPowerUp.remainingMs = Math.max(0, pointPowerUp.expiresAt - Date.now());
+            window.clearTimeout(powerUpExpiryTimer);
+            powerUpExpiryTimer = null;
+          }
+          countdownTimer = null;
+          timer = null;
+          pauseButton.textContent = "Resume";
+          message.textContent = "Paused";
+          draw();
+        } else {
+          pauseButton.textContent = "Pause";
+          message.textContent = "Keep going!";
+          scheduleTick();
+          startCountdown();
+          startPointPowerUpExpiry();
+        }
+      }
+
+      speedSlider.addEventListener("input", () => {
+        speedValue.value = speedSlider.value;
+        saveSettings();
+      });
+      skinSelect.addEventListener("change", () => {
+        colorChoiceSelect.value = "skin";
+        applySkin();
+        saveSettings();
+      });
+      textureSelect.addEventListener("change", () => {
+        draw();
+        saveSettings();
+      });
+      boardSelect.addEventListener("change", () => {
+        draw();
+        saveSettings();
+      });
+      gameModeSelect.addEventListener("change", () => {
+        updateRecordNote();
+        updateCountdown();
+        saveSettings();
+      });
+      difficultySelect.addEventListener("change", () => {
+        updateRecordNote();
+        saveSettings();
+      });
+      goalSelect.addEventListener("change", saveSettings);
+      extraLifeToggle.addEventListener("change", saveSettings);
+      soundToggle.addEventListener("change", saveSettings);
+      bonusFoodToggle.addEventListener("change", saveSettings);
+      wrapEdgesToggle.addEventListener("change", saveSettings);
+      colorChoiceSelect.addEventListener("change", () => {
+        applySkin();
+        saveSettings();
+      });
+      accessorySelect.addEventListener("change", () => {
+        applySkin();
+        saveSettings();
+      });
+      openSettingsButton.addEventListener("click", () => {
+        if (shopDialog.open) shopDialog.close();
+        if (tasksDialog.open) tasksDialog.close();
+        settingsDialog.showModal();
+      });
+      openShopButton.addEventListener("click", () => {
+        if (settingsDialog.open) settingsDialog.close();
+        if (tasksDialog.open) tasksDialog.close();
+        shopDialog.showModal();
+      });
+      openTasksButton.addEventListener("click", () => {
+        if (settingsDialog.open) settingsDialog.close();
+        if (shopDialog.open) shopDialog.close();
+        refreshDailyMissions();
+        tasksDialog.showModal();
+      });
+      document.querySelectorAll("[data-close-dialog]").forEach((button) => {
+        button.addEventListener("click", () => button.closest("dialog").close());
+      });
+      [settingsDialog, shopDialog].forEach((dialog) => {
+        dialog.addEventListener("click", (event) => {
+          if (event.target === dialog) dialog.close();
+        });
+      });
+      tasksDialog.addEventListener("click", (event) => {
+        if (event.target === tasksDialog) tasksDialog.close();
+      });
+      document.querySelectorAll("[data-buy]").forEach((button) => {
+        button.addEventListener("click", () => buyItem(button.dataset.buy));
+      });
+      startButton.addEventListener("click", startGame);
+      pauseButton.addEventListener("click", togglePause);
+      canvas.addEventListener("pointerdown", (event) => {
+        if (event.pointerType === "touch") pointerStart = { x: event.clientX, y: event.clientY };
+      });
+      canvas.addEventListener("pointerup", (event) => {
+        if (!pointerStart) return;
+        const deltaX = event.clientX - pointerStart.x;
+        const deltaY = event.clientY - pointerStart.y;
+        pointerStart = null;
+        if (Math.max(Math.abs(deltaX), Math.abs(deltaY)) < 18) return;
+        changeDirection(Math.abs(deltaX) > Math.abs(deltaY)
+          ? deltaX > 0 ? "right" : "left"
+          : deltaY > 0 ? "down" : "up");
+      });
+      canvas.addEventListener("pointercancel", () => { pointerStart = null; });
+      document.querySelectorAll("[data-direction]").forEach((button) => {
+        button.addEventListener("click", () => changeDirection(button.dataset.direction));
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.target instanceof HTMLInputElement || event.target instanceof HTMLSelectElement) return;
+        const keys = {
+          ArrowUp: "up", w: "up", W: "up",
+          ArrowDown: "down", s: "down", S: "down",
+          ArrowLeft: "left", a: "left", A: "left",
+          ArrowRight: "right", d: "right", D: "right"
+        };
+        if (keys[event.key]) {
+          event.preventDefault();
+          changeDirection(keys[event.key]);
+        } else if (event.code === "Space") {
+          event.preventDefault();
+          if (!playing) startGame();
+          else togglePause();
+        } else if (event.key.toLowerCase() === "r") {
+          event.preventDefault();
+          startGame();
+        }
+      });
+
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      refreshShop();
+      applySkin();
+      refreshDailyMissions();
+      updateRecordNote();
+      updateCountdown();
+      draw();
+    </script>
+  </body>
+</html>
